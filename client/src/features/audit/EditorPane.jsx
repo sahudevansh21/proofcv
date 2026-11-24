@@ -28,10 +28,15 @@ export function EditorPane({ id, title, hint, value, analysedValue, onChange, hi
   const showHighlights = mode === 'highlight' && value.trim().length > 0;
 
   return (
-    <section aria-labelledby={`${id}-title`} className="flex min-h-0 flex-col rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card)]">
+    <section
+      aria-labelledby={`${id}-title`}
+      className="flex min-h-0 flex-col rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card)]"
+    >
       <header className="flex flex-wrap items-center justify-between gap-2 border-b border-line px-4 py-3">
         <div className="min-w-0">
-          <h2 id={`${id}-title`} className="text-sm font-semibold text-fg"><label htmlFor={id}>{title}</label></h2>
+          <h2 id={`${id}-title`} className="text-sm font-semibold text-fg">
+            <label htmlFor={id}>{title}</label>
+          </h2>
           <p className="truncate text-xs text-fg-muted">{hint}</p>
         </div>
         <div className="flex items-center gap-2">
@@ -41,7 +46,10 @@ export function EditorPane({ id, title, hint, value, analysedValue, onChange, hi
             label={`${title} view`}
             value={mode}
             onChange={setMode}
-            tabs={[{ value: 'edit', label: 'Edit', icon: PenLine }, { value: 'highlight', label: 'Highlights', icon: Highlighter }]}
+            tabs={[
+              { value: 'edit', label: 'Edit', icon: PenLine },
+              { value: 'highlight', label: 'Highlights', icon: Highlighter },
+            ]}
           />
         </div>
       </header>
@@ -51,9 +59,15 @@ export function EditorPane({ id, title, hint, value, analysedValue, onChange, hi
           className="h-[min(60vh,30rem)] overflow-auto whitespace-pre-wrap break-words px-4 py-3 font-mono text-[13px] leading-6 text-fg"
           onDoubleClick={() => setMode('edit')}
         >
-          {segments.map((seg, i) => (seg.kind
-            ? <mark key={i} className={`hl hl-${seg.kind}`} title={seg.label}>{seg.text}</mark>
-            : <span key={i}>{seg.text}</span>))}
+          {segments.map((seg, i) =>
+            seg.kind ? (
+              <mark key={i} className={`hl hl-${seg.kind}`} title={seg.label}>
+                {seg.text}
+              </mark>
+            ) : (
+              <span key={i}>{seg.text}</span>
+            ),
+          )}
         </div>
       ) : (
         <textarea
@@ -68,11 +82,20 @@ export function EditorPane({ id, title, hint, value, analysedValue, onChange, hi
 
       <footer className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-line px-4 py-2 text-[11px] text-fg-muted">
         <span className="tabular-nums">{value.length.toLocaleString()} chars</span>
-        {mode === 'highlight' ? legend.map((l) => (
-          <span key={l.kind} className="flex items-center gap-1">
-            <mark className={`hl hl-${l.kind}`}>{LEGEND_ICON[l.kind]} {l.sample}</mark>{l.text}
-          </span>
-        )) : value.trim() && <span>Switch to <b>Highlights</b> to see what was found. Hover a highlight for tips.</span>}
+        {mode === 'highlight'
+          ? legend.map((l) => (
+              <span key={l.kind} className="flex items-center gap-1">
+                <mark className={`hl hl-${l.kind}`}>
+                  {LEGEND_ICON[l.kind]} {l.sample}
+                </mark>
+                {l.text}
+              </span>
+            ))
+          : value.trim() && (
+              <span>
+                Switch to <b>Highlights</b> to see what was found. Hover a highlight for tips.
+              </span>
+            )}
       </footer>
     </section>
   );

@@ -27,19 +27,35 @@ function Compare({ a, b }) {
         <thead>
           <tr className="text-left text-xs text-fg-muted">
             <th className="pb-2 font-medium">Metric</th>
-            <th className="pb-2 font-medium">{a.title}<br /><span className="font-normal">{formatDateTime(a.createdAt)}</span></th>
-            <th className="pb-2 font-medium">{b.title}<br /><span className="font-normal">{formatDateTime(b.createdAt)}</span></th>
+            <th className="pb-2 font-medium">
+              {a.title}
+              <br />
+              <span className="font-normal">{formatDateTime(a.createdAt)}</span>
+            </th>
+            <th className="pb-2 font-medium">
+              {b.title}
+              <br />
+              <span className="font-normal">{formatDateTime(b.createdAt)}</span>
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-line">
           {rows.map(([label, x, y]) => (
-            <tr key={label}><th scope="row" className="py-2 text-left font-normal text-fg-muted">{label}</th><td className="py-2 font-semibold tabular-nums">{x}</td><td className="py-2 font-semibold tabular-nums">{y}</td></tr>
+            <tr key={label}>
+              <th scope="row" className="py-2 text-left font-normal text-fg-muted">
+                {label}
+              </th>
+              <td className="py-2 font-semibold tabular-nums">{x}</td>
+              <td className="py-2 font-semibold tabular-nums">{y}</td>
+            </tr>
           ))}
         </tbody>
       </table>
       <div>
         <h3 className="text-sm font-semibold text-fg">Skills that changed ({changed.length})</h3>
-        {changed.length === 0 ? <p className="mt-1 text-sm text-fg-muted">Same skill results in both audits.</p> : (
+        {changed.length === 0 ? (
+          <p className="mt-1 text-sm text-fg-muted">Same skill results in both audits.</p>
+        ) : (
           <ul className="mt-2 space-y-1.5">
             {changed.map((n) => {
               const sa = STATUS[statusIn(a, n)];
@@ -47,9 +63,21 @@ function Compare({ a, b }) {
               return (
                 <li key={n} className="flex flex-wrap items-center gap-2 text-sm">
                   <span className="w-40 truncate font-medium text-fg">{n}</span>
-                  {sa ? <Badge tone={sa.tone} icon={sa.icon}>{sa.label}</Badge> : <Badge>Not in posting</Badge>}
+                  {sa ? (
+                    <Badge tone={sa.tone} icon={sa.icon}>
+                      {sa.label}
+                    </Badge>
+                  ) : (
+                    <Badge>Not in posting</Badge>
+                  )}
                   <ArrowRight aria-label="became" className="h-4 w-4 text-fg-subtle" />
-                  {sb ? <Badge tone={sb.tone} icon={sb.icon}>{sb.label}</Badge> : <Badge>Not in posting</Badge>}
+                  {sb ? (
+                    <Badge tone={sb.tone} icon={sb.icon}>
+                      {sb.label}
+                    </Badge>
+                  ) : (
+                    <Badge>Not in posting</Badge>
+                  )}
                 </li>
               );
             })}
@@ -114,13 +142,21 @@ export default function HistoryPage() {
                 />
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-fg">{a.title}</p>
-                  <p className="truncate text-xs text-fg-muted">{a.role} · {formatDateTime(a.createdAt)}</p>
+                  <p className="truncate text-xs text-fg-muted">
+                    {a.role} · {formatDateTime(a.createdAt)}
+                  </p>
                 </div>
                 {a.counts && (
                   <div className="hidden gap-1.5 md:flex">
-                    <Badge tone="success" icon={CircleCheck}>{a.counts.matched}</Badge>
-                    <Badge tone="warning" icon={Search}>{a.counts.reworded}</Badge>
-                    <Badge tone="danger" icon={CircleX}>{a.counts.missing}</Badge>
+                    <Badge tone="success" icon={CircleCheck}>
+                      {a.counts.matched}
+                    </Badge>
+                    <Badge tone="warning" icon={Search}>
+                      {a.counts.reworded}
+                    </Badge>
+                    <Badge tone="danger" icon={CircleX}>
+                      {a.counts.missing}
+                    </Badge>
                   </div>
                 )}
                 <span className="w-24 text-right">
@@ -129,7 +165,13 @@ export default function HistoryPage() {
                 </span>
                 <div className="flex gap-1">
                   <IconButton icon={RotateCcw} label={`Reopen ${a.title}`} size="sm" onClick={() => reopen(a)} />
-                  <IconButton icon={Trash2} label={`Delete audit of ${a.title}`} size="sm" variant="danger-ghost" onClick={() => remove(a)} />
+                  <IconButton
+                    icon={Trash2}
+                    label={`Delete audit of ${a.title}`}
+                    size="sm"
+                    variant="danger-ghost"
+                    onClick={() => remove(a)}
+                  />
                 </div>
               </li>
             ))}

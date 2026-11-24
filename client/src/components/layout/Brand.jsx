@@ -18,7 +18,9 @@ export function Logo({ to = '/' }) {
   return (
     <Link to={to} className="flex items-center gap-2.5 rounded-lg" aria-label="ProofCV home">
       <LogoMark />
-      <span className="text-lg font-bold tracking-tight text-fg">Proof<span className="text-primary">CV</span></span>
+      <span className="text-lg font-bold tracking-tight text-fg">
+        Proof<span className="text-primary">CV</span>
+      </span>
     </Link>
   );
 }

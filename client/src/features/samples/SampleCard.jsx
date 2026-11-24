@@ -10,7 +10,10 @@ function PaperPreview({ text }) {
       {lines.map((l, i) => {
         const heading = /^[A-Z][A-Z &]{3,}$/.test(l.trim());
         return (
-          <p key={i} className={`truncate ${i === 0 ? 'text-[9px] font-bold leading-3 text-[#202124]' : ''} ${heading ? 'mt-1 border-b border-[#dadce0] font-bold text-[#1a73e8]' : ''}`}>
+          <p
+            key={i}
+            className={`truncate ${i === 0 ? 'text-[9px] font-bold leading-3 text-[#202124]' : ''} ${heading ? 'mt-1 border-b border-[#dadce0] font-bold text-[#1a73e8]' : ''}`}
+          >
             {l || ' '}
           </p>
         );
@@ -49,7 +52,9 @@ export function SampleCard({ sample, onSelect }) {
       </div>
       <div className="flex flex-1 flex-col p-4">
         <p className="font-semibold text-fg">{sample.name}</p>
-        <p className="text-xs text-fg-muted">{sample.persona} · {preset?.role}</p>
+        <p className="text-xs text-fg-muted">
+          {sample.persona} · {preset?.role}
+        </p>
         <p className="mt-2 text-sm text-fg-muted">{sample.focus}</p>
         <span className="mt-auto inline-flex items-center gap-1 pt-3 text-sm font-medium text-primary">
           Audit this sample <ArrowRight aria-hidden className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

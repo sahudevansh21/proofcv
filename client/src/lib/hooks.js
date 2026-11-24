@@ -13,12 +13,16 @@ export function useDebounced(value, delay = 250) {
   return debounced;
 }
 
-/** Animates a number towards `target` (skipped when the user prefers reduced motion). */
+/** Animates a number towards `target` (returns `target` directly when the user prefers reduced motion). */
 export function useCountUp(target, duration = 600) {
+  const reduce = prefersReducedMotion();
   const [value, setValue] = useState(target);
   const from = useRef(target);
   useEffect(() => {
-    if (prefersReducedMotion()) { setValue(target); from.current = target; return undefined; }
+    if (reduce) {
+      from.current = target;
+      return undefined;
+    }
     const start = performance.now();
     const origin = from.current;
     let frame;
@@ -31,8 +35,8 @@ export function useCountUp(target, duration = 600) {
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [target, duration]);
-  return value;
+  }, [target, duration, reduce]);
+  return reduce ? target : value;
 }
 
 /** Keeps the <html> "dark" class in sync with the theme preference (and the OS when set to "system"). */
@@ -57,4 +61,5 @@ export function useDocumentTitle(title) {
 }
 
 export const formatDate = (iso) => new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
-export const formatDateTime = (iso) => new Date(iso).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+export const formatDateTime = (iso) =>
+  new Date(iso).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });

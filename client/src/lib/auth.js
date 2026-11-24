@@ -25,8 +25,8 @@ const fromFirebaseUser = (u) => ({
 });
 
 const FIREBASE_MESSAGES = {
-  'auth/invalid-credential': 'That email and password don\'t match.',
-  'auth/wrong-password': 'That email and password don\'t match.',
+  'auth/invalid-credential': "That email and password don't match.",
+  'auth/wrong-password': "That email and password don't match.",
   'auth/user-not-found': 'No account with that email. Sign up instead?',
   'auth/email-already-in-use': 'An account with that email already exists. Log in instead.',
   'auth/weak-password': 'Use at least 8 characters.',
@@ -122,7 +122,7 @@ export async function logInWithEmail({ email, password }) {
   }
   const account = useStore.getState().localAccounts[cleanEmail];
   if (!account || (await hashPassword(password, account.salt)) !== account.passwordHash) {
-    throw new AuthError('That email and password don\'t match an account on this device.');
+    throw new AuthError("That email and password don't match an account on this device.");
   }
   const session = { id: account.id, name: account.name, email: account.email, provider: 'local' };
   useStore.getState().setSession(session);

@@ -15,10 +15,19 @@ function Sparkline({ values }) {
   const delta = values.at(-1) - values[0];
   return (
     <span className="flex items-center gap-2">
-      <svg width={w} height={h} viewBox={`0 -2 ${w} ${h + 4}`} role="img" aria-label={`Coverage trend from ${values[0]}% to ${values.at(-1)}%`}>
+      <svg
+        width={w}
+        height={h}
+        viewBox={`0 -2 ${w} ${h + 4}`}
+        role="img"
+        aria-label={`Coverage trend from ${values[0]}% to ${values.at(-1)}%`}
+      >
         <polyline points={pts} fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
       </svg>
-      <Badge tone={delta > 0 ? 'success' : delta < 0 ? 'danger' : 'neutral'}>{delta > 0 ? '+' : ''}{delta} pts</Badge>
+      <Badge tone={delta > 0 ? 'success' : delta < 0 ? 'danger' : 'neutral'}>
+        {delta > 0 ? '+' : ''}
+        {delta} pts
+      </Badge>
     </span>
   );
 }
@@ -37,9 +46,18 @@ export default function Dashboard() {
     navigate('/app/audit');
   };
   const quick = {
-    paste: () => { updateDraft({ ...EMPTY_DRAFT }); navigate('/app/audit'); },
-    sample: () => { loadSample(); navigate('/app/audit'); },
-    preset: (p) => { updateDraft({ jd: p.jd, presetId: p.id }); navigate('/app/audit'); },
+    paste: () => {
+      updateDraft({ ...EMPTY_DRAFT });
+      navigate('/app/audit');
+    },
+    sample: () => {
+      loadSample();
+      navigate('/app/audit');
+    },
+    preset: (p) => {
+      updateDraft({ jd: p.jd, presetId: p.id });
+      navigate('/app/audit');
+    },
   };
   const remove = (r) => {
     if (!window.confirm(`Delete "${r.title}" from this device? Its past audits stay in History.`)) return;
@@ -47,7 +65,11 @@ export default function Dashboard() {
     toast('Resume deleted.', { tone: 'success' });
   };
 
-  const trendFor = (id) => audits.filter((a) => a.resumeId === id && a.coverageNow !== null).map((a) => a.coverageNow).reverse();
+  const trendFor = (id) =>
+    audits
+      .filter((a) => a.resumeId === id && a.coverageNow !== null)
+      .map((a) => a.coverageNow)
+      .reverse();
   const hasDraft = draft.resume.trim().length > 0;
 
   return (
@@ -58,7 +80,9 @@ export default function Dashboard() {
       </div>
 
       <section aria-labelledby="quick">
-        <h2 id="quick" className="sr-only">Quick start</h2>
+        <h2 id="quick" className="sr-only">
+          Quick start
+        </h2>
         <div className="grid gap-4 md:grid-cols-3">
           <Card as="button" type="button" onClick={quick.paste} className="text-left transition hover:shadow-[var(--shadow-pop)]">
             <ClipboardPaste aria-hidden className="h-6 w-6 text-primary" />
@@ -75,7 +99,12 @@ export default function Dashboard() {
             <p className="mt-3 font-semibold text-fg">Role presets</p>
             <div className="mt-2 flex flex-wrap gap-1.5">
               {PRESETS.map((p) => (
-                <button key={p.id} type="button" onClick={() => quick.preset(p)} className="rounded-full border border-line px-2.5 py-1 text-xs font-medium text-fg-muted hover:border-primary hover:text-primary">
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => quick.preset(p)}
+                  className="rounded-full border border-line px-2.5 py-1 text-xs font-medium text-fg-muted hover:border-primary hover:text-primary"
+                >
                   {p.role.replace(' Intern', '')}
                 </button>
               ))}
@@ -84,15 +113,22 @@ export default function Dashboard() {
         </div>
         {hasDraft && (
           <Card className="mt-4 flex flex-wrap items-center justify-between gap-3 bg-primary-soft/40">
-            <p className="text-sm text-fg"><b>Unsaved draft</b>{draft.title ? `: ${draft.title}` : ''}. Continue where you left off.</p>
-            <Button to="/app/audit" size="sm" iconRight={ArrowRight}>Continue</Button>
+            <p className="text-sm text-fg">
+              <b>Unsaved draft</b>
+              {draft.title ? `: ${draft.title}` : ''}. Continue where you left off.
+            </p>
+            <Button to="/app/audit" size="sm" iconRight={ArrowRight}>
+              Continue
+            </Button>
           </Card>
         )}
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <section aria-labelledby="saved">
-          <h2 id="saved" className="mb-3 text-lg font-semibold text-fg">Saved resumes</h2>
+          <h2 id="saved" className="mb-3 text-lg font-semibold text-fg">
+            Saved resumes
+          </h2>
           {resumes.length === 0 ? (
             <EmptyState icon={FileText} title="No saved resumes yet">
               In an audit, press <b>Save audit</b>. Resumes are stored in this browser only.
@@ -105,11 +141,15 @@ export default function Dashboard() {
                     <FileText aria-hidden className="h-8 w-8 shrink-0 text-fg-subtle" />
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-semibold text-fg">{r.title}</p>
-                      <p className="text-xs text-fg-muted">Updated {formatDate(r.updatedAt)} · {trendFor(r.id).length} audit{trendFor(r.id).length === 1 ? '' : 's'}</p>
+                      <p className="text-xs text-fg-muted">
+                        Updated {formatDate(r.updatedAt)} · {trendFor(r.id).length} audit{trendFor(r.id).length === 1 ? '' : 's'}
+                      </p>
                     </div>
                     <Sparkline values={trendFor(r.id)} />
                     <div className="flex items-center gap-1">
-                      <Button size="sm" variant="soft" onClick={() => openResume(r)}>Open</Button>
+                      <Button size="sm" variant="soft" onClick={() => openResume(r)}>
+                        Open
+                      </Button>
                       <IconButton icon={Trash2} label={`Delete ${r.title}`} size="sm" variant="danger-ghost" onClick={() => remove(r)} />
                     </div>
                   </Card>
@@ -121,11 +161,19 @@ export default function Dashboard() {
 
         <section aria-labelledby="recent">
           <div className="mb-3 flex items-center justify-between">
-            <h2 id="recent" className="text-lg font-semibold text-fg">Recent audits</h2>
-            {audits.length > 0 && <Button to="/app/history" size="sm" variant="ghost" iconRight={ArrowRight}>All</Button>}
+            <h2 id="recent" className="text-lg font-semibold text-fg">
+              Recent audits
+            </h2>
+            {audits.length > 0 && (
+              <Button to="/app/history" size="sm" variant="ghost" iconRight={ArrowRight}>
+                All
+              </Button>
+            )}
           </div>
           {audits.length === 0 ? (
-            <EmptyState icon={HistoryIcon} title="No audits yet">Saved audits show up here with their coverage.</EmptyState>
+            <EmptyState icon={HistoryIcon} title="No audits yet">
+              Saved audits show up here with their coverage.
+            </EmptyState>
           ) : (
             <Card padded={false}>
               <ul className="divide-y divide-line">
@@ -133,7 +181,9 @@ export default function Dashboard() {
                   <li key={a.id} className="flex items-center gap-3 px-4 py-3">
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium text-fg">{a.title}</p>
-                      <p className="truncate text-xs text-fg-muted">{a.role} · {formatDateTime(a.createdAt)}</p>
+                      <p className="truncate text-xs text-fg-muted">
+                        {a.role} · {formatDateTime(a.createdAt)}
+                      </p>
                     </div>
                     {a.coverageNow !== null && (
                       <span className="text-right">

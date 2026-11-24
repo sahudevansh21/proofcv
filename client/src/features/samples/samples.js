@@ -9,7 +9,13 @@ export { PRESETS, SAMPLES };
 const IMAGES = import.meta.glob('../../assets/samples/*.{png,jpg,jpeg,webp}', { eager: true, query: '?url', import: 'default' });
 
 export const sampleImage = (id) => {
-  const key = Object.keys(IMAGES).find((k) => k.split('/').pop().replace(/\.[^.]+$/, '') === id);
+  const key = Object.keys(IMAGES).find(
+    (k) =>
+      k
+        .split('/')
+        .pop()
+        .replace(/\.[^.]+$/, '') === id,
+  );
   return key ? IMAGES[key] : null;
 };
 

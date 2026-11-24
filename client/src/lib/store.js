@@ -40,25 +40,29 @@ export const useStore = create(
         if (!userId) return null;
         const now = new Date().toISOString();
         const resumeId = id ?? uid('res');
-        set((s) => patchData(s, userId, (d) => {
-          const exists = d.resumes.some((r) => r.id === resumeId);
-          const entry = { id: resumeId, title: title?.trim() || 'Untitled resume', text, updatedAt: now };
-          return {
-            resumes: exists
-              ? d.resumes.map((r) => (r.id === resumeId ? { ...r, ...entry } : r))
-              : [{ ...entry, createdAt: now }, ...d.resumes],
-          };
-        }));
+        set((s) =>
+          patchData(s, userId, (d) => {
+            const exists = d.resumes.some((r) => r.id === resumeId);
+            const entry = { id: resumeId, title: title?.trim() || 'Untitled resume', text, updatedAt: now };
+            return {
+              resumes: exists
+                ? d.resumes.map((r) => (r.id === resumeId ? { ...r, ...entry } : r))
+                : [{ ...entry, createdAt: now }, ...d.resumes],
+            };
+          }),
+        );
         return resumeId;
       },
 
       deleteResume: (id) => {
         const userId = get().session?.id;
         if (!userId) return;
-        set((s) => patchData(s, userId, (d) => ({
-          resumes: d.resumes.filter((r) => r.id !== id),
-          draft: d.draft.resumeId === id ? { ...d.draft, resumeId: null } : d.draft,
-        })));
+        set((s) =>
+          patchData(s, userId, (d) => ({
+            resumes: d.resumes.filter((r) => r.id !== id),
+            draft: d.draft.resumeId === id ? { ...d.draft, resumeId: null } : d.draft,
+          })),
+        );
       },
 
       saveAudit: (audit) => {
@@ -76,15 +80,16 @@ export const useStore = create(
       },
 
       /** Removes every resume, audit and draft for the signed-in profile, and its local account. Signs out. */
-      deleteAllMyData: () => set((s) => {
-        const session = s.session;
-        if (!session) return {};
-        const data = { ...s.data };
-        delete data[session.id];
-        const localAccounts = { ...s.localAccounts };
-        if (session.provider === 'local' && session.email) delete localAccounts[session.email];
-        return { data, localAccounts, session: null };
-      }),
+      deleteAllMyData: () =>
+        set((s) => {
+          const session = s.session;
+          if (!session) return {};
+          const data = { ...s.data };
+          delete data[session.id];
+          const localAccounts = { ...s.localAccounts };
+          if (session.provider === 'local' && session.email) delete localAccounts[session.email];
+          return { data, localAccounts, session: null };
+        }),
 
       exportMyData: () => {
         const { session, data } = get();
@@ -102,4 +107,4 @@ export const useStore = create(
 );
 
 /** The signed-in profile's resumes, audits and draft (stable empty object when signed out). */
-export const useUserData = () => useStore((s) => (s.session ? s.data[s.session.id] ?? EMPTY_DATA : EMPTY_DATA));
+export const useUserData = () => useStore((s) => (s.session ? (s.data[s.session.id] ?? EMPTY_DATA) : EMPTY_DATA));

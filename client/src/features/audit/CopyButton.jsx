@@ -12,9 +12,13 @@ export function CopyButton({ text, label = 'Copy', size = 'sm', variant = 'secon
       const unfilled = await copyText(text);
       setDone(true);
       setTimeout(() => setDone(false), 1500);
-      if (unfilled > 0) toast(`Copied, but ${unfilled} placeholder${unfilled > 1 ? 's are' : ' is'} unfilled. Replace each [ ] with a true detail.`, { tone: 'warning', duration: 5000 });
+      if (unfilled > 0)
+        toast(`Copied, but ${unfilled} placeholder${unfilled > 1 ? 's are' : ' is'} unfilled. Replace each [ ] with a true detail.`, {
+          tone: 'warning',
+          duration: 5000,
+        });
     } catch {
-      toast('Couldn\'t copy. Select the text and copy it manually.', { tone: 'error' });
+      toast("Couldn't copy. Select the text and copy it manually.", { tone: 'error' });
     }
   };
   return (

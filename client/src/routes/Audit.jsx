@@ -41,16 +41,19 @@ export default function Audit() {
   const setResume = useCallback((resume) => updateDraft({ resume }), [updateDraft]);
   const setJd = useCallback((jd) => updateDraft({ jd, presetId: '' }), [updateDraft]);
 
-  const applyBullet = useCallback((bullet, text) => {
-    const current = useStore.getState();
-    const d = current.data[current.session.id]?.draft;
-    if (!d || d.resume.slice(bullet.start, bullet.end) !== bullet.text) {
-      toast('Your resume changed while editing. Pick the bullet again.', { tone: 'warning' });
-      return;
-    }
-    updateDraft({ resume: d.resume.slice(0, bullet.start) + text + d.resume.slice(bullet.end) });
-    toast('Bullet applied. Coverage updated.', { tone: 'success' });
-  }, [toast, updateDraft]);
+  const applyBullet = useCallback(
+    (bullet, text) => {
+      const current = useStore.getState();
+      const d = current.data[current.session.id]?.draft;
+      if (!d || d.resume.slice(bullet.start, bullet.end) !== bullet.text) {
+        toast('Your resume changed while editing. Pick the bullet again.', { tone: 'warning' });
+        return;
+      }
+      updateDraft({ resume: d.resume.slice(0, bullet.start) + text + d.resume.slice(bullet.end) });
+      toast('Bullet applied. Coverage updated.', { tone: 'success' });
+    },
+    [toast, updateDraft],
+  );
 
   const importFile = async (e) => {
     const file = e.target.files?.[0];
@@ -65,7 +68,10 @@ export default function Audit() {
     }
   };
 
-  const openSave = () => { setSaveTitle(draft.title || ''); setSaveOpen(true); };
+  const openSave = () => {
+    setSaveTitle(draft.title || '');
+    setSaveOpen(true);
+  };
   const confirmSave = () => {
     const title = saveTitle.trim() || 'Untitled resume';
     const resumeId = saveResume({ id: draft.resumeId ?? undefined, title, text: draft.resume });
@@ -76,7 +82,11 @@ export default function Audit() {
   };
 
   const print = () => {
-    if (result.placeholders > 0) toast(`${result.placeholders} placeholder${result.placeholders > 1 ? 's' : ''} unfilled in your resume. The report shows them highlighted.`, { tone: 'warning', duration: 5000 });
+    if (result.placeholders > 0)
+      toast(
+        `${result.placeholders} placeholder${result.placeholders > 1 ? 's' : ''} unfilled in your resume. The report shows them highlighted.`,
+        { tone: 'warning', duration: 5000 },
+      );
     window.print();
   };
 
@@ -94,12 +104,14 @@ export default function Audit() {
       highlights={result.highlights}
       legend={RESUME_LEGEND}
       placeholder={'EDUCATION\n...\n\nSKILLS\n...\n\nPROJECTS\n- Built ...\n- Worked on ...'}
-      actions={(
+      actions={
         <>
           <input ref={fileRef} type="file" accept={ACCEPT_ATTR} className="sr-only" onChange={importFile} tabIndex={-1} aria-hidden />
-          <Button variant="ghost" size="sm" icon={FileUp} onClick={() => fileRef.current?.click()} className="no-print">Import .txt</Button>
+          <Button variant="ghost" size="sm" icon={FileUp} onClick={() => fileRef.current?.click()} className="no-print">
+            Import .txt
+          </Button>
         </>
-      )}
+      }
     />
   );
   const jdPane = (
@@ -120,7 +132,11 @@ export default function Audit() {
     <div className={`space-y-4 transition-opacity duration-200 ${pending ? 'opacity-60' : ''}`} aria-busy={pending}>
       {result.warnings.length > 0 && (
         <ul className="flex flex-wrap gap-2" aria-label="Notes">
-          {result.warnings.map((w) => <li key={w} className="rounded-full bg-surface-2 px-3 py-1 text-xs text-fg-muted">{w}</li>)}
+          {result.warnings.map((w) => (
+            <li key={w} className="rounded-full bg-surface-2 px-3 py-1 text-xs text-fg-muted">
+              {w}
+            </li>
+          ))}
         </ul>
       )}
       <div className="grid gap-4 lg:grid-cols-3">
@@ -138,12 +154,22 @@ export default function Audit() {
     <EmptyState
       icon={Sparkles}
       title="Paste your resume and a job description"
-      action={(
+      action={
         <div className="flex flex-wrap justify-center gap-2">
-          <Button icon={Sparkles} onClick={() => { loadSample(); setMobileTab('results'); }}>Load sample</Button>
-          <Button variant="secondary" icon={Target} onClick={() => updateDraft({ jd: PRESETS[0].jd, presetId: PRESETS[0].id })}>Use SDE intern JD</Button>
+          <Button
+            icon={Sparkles}
+            onClick={() => {
+              loadSample();
+              setMobileTab('results');
+            }}
+          >
+            Load sample
+          </Button>
+          <Button variant="secondary" icon={Target} onClick={() => updateDraft({ jd: PRESETS[0].jd, presetId: PRESETS[0].id })}>
+            Use SDE intern JD
+          </Button>
         </div>
-      )}
+      }
     >
       Or try a sample to see how ProofCV works. Everything runs in your browser.
     </EmptyState>
@@ -154,28 +180,68 @@ export default function Audit() {
       {/* Print header */}
       <div className="print-only mb-4">
         <h1 className="text-2xl font-bold">ProofCV report{draft.title ? `: ${draft.title}` : ''}</h1>
-        <p className="text-sm">{preset?.role ?? 'Custom job description'} · {formatDateTime(new Date().toISOString())} · JD keyword coverage is a rule of thumb for this tool, not an ATS score.</p>
+        <p className="text-sm">
+          {preset?.role ?? 'Custom job description'} · {formatDateTime(new Date().toISOString())} · JD keyword coverage is a rule of thumb
+          for this tool, not an ATS score.
+        </p>
       </div>
 
       {/* Toolbar */}
       <div className="flex flex-wrap items-end justify-between gap-3 no-print">
         <div>
           <h1 className="text-[28px] font-bold tracking-tight text-fg">Audit</h1>
-          <p className="flex items-center gap-1.5 text-sm text-fg-muted"><ShieldCheck aria-hidden className="h-4 w-4 text-success" />Analysed on your device. Re-scores as you type.</p>
+          <p className="flex items-center gap-1.5 text-sm text-fg-muted">
+            <ShieldCheck aria-hidden className="h-4 w-4 text-success" />
+            Analysed on your device. Re-scores as you type.
+          </p>
         </div>
         <div className="flex flex-wrap items-end gap-2">
-          <Select aria-label="Load a sample resume" value="" onChange={(e) => { if (e.target.value) { loadSample(e.target.value); toast('Sample loaded.', { tone: 'success' }); } }} className="w-44">
+          <Select
+            aria-label="Load a sample resume"
+            value=""
+            onChange={(e) => {
+              if (e.target.value) {
+                loadSample(e.target.value);
+                toast('Sample loaded.', { tone: 'success' });
+              }
+            }}
+            className="w-44"
+          >
             <option value="">Load sample…</option>
-            {SAMPLES.map((s) => <option key={s.id} value={s.id}>{s.name} ({presetById(s.presetId)?.role.replace(' Intern', '')})</option>)}
+            {SAMPLES.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name} ({presetById(s.presetId)?.role.replace(' Intern', '')})
+              </option>
+            ))}
           </Select>
-          <Select aria-label="Role preset" value={draft.presetId} onChange={(e) => { const p = presetById(e.target.value); if (p) updateDraft({ jd: p.jd, presetId: p.id }); }} className="w-52">
-            <option value="" disabled>Role preset…</option>
-            {PRESETS.map((p) => <option key={p.id} value={p.id}>{p.role}</option>)}
+          <Select
+            aria-label="Role preset"
+            value={draft.presetId}
+            onChange={(e) => {
+              const p = presetById(e.target.value);
+              if (p) updateDraft({ jd: p.jd, presetId: p.id });
+            }}
+            className="w-52"
+          >
+            <option value="" disabled>
+              Role preset…
+            </option>
+            {PRESETS.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.role}
+              </option>
+            ))}
           </Select>
-          <Button variant="secondary" icon={Printer} onClick={print} disabled={!hasInput}>Print</Button>
-          <Button icon={BookmarkPlus} onClick={openSave} disabled={!draft.resume.trim()}>Save audit</Button>
+          <Button variant="secondary" icon={Printer} onClick={print} disabled={!hasInput}>
+            Print
+          </Button>
+          <Button icon={BookmarkPlus} onClick={openSave} disabled={!draft.resume.trim()}>
+            Save audit
+          </Button>
           {hasInput && (
-            <Button variant="ghost" icon={RotateCcw} onClick={() => updateDraft({ ...EMPTY_DRAFT })} aria-label="Clear both panes">Clear</Button>
+            <Button variant="ghost" icon={RotateCcw} onClick={() => updateDraft({ ...EMPTY_DRAFT })} aria-label="Clear both panes">
+              Clear
+            </Button>
           )}
         </div>
       </div>
@@ -210,17 +276,35 @@ export default function Audit() {
         onClose={() => setSaveOpen(false)}
         title="Save this audit"
         description="Saves the resume and a snapshot of this audit to History, in this browser only."
-        footer={(
+        footer={
           <>
-            <Button variant="ghost" onClick={() => setSaveOpen(false)}>Cancel</Button>
-            <Button onClick={confirmSave} icon={BookmarkPlus}>Save</Button>
+            <Button variant="ghost" onClick={() => setSaveOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={confirmSave} icon={BookmarkPlus}>
+              Save
+            </Button>
           </>
-        )}
+        }
       >
-        <form onSubmit={(e) => { e.preventDefault(); confirmSave(); }}>
-          <Input label="Resume name" value={saveTitle} onChange={(e) => setSaveTitle(e.target.value)} placeholder="e.g. SDE internship – Nov" autoFocus maxLength={80} />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            confirmSave();
+          }}
+        >
+          <Input
+            label="Resume name"
+            value={saveTitle}
+            onChange={(e) => setSaveTitle(e.target.value)}
+            placeholder="e.g. SDE internship – Nov"
+            autoFocus
+            maxLength={80}
+          />
         </form>
-        {draft.resumeId && <p className="mt-3 text-xs text-fg-muted">This updates your saved resume and adds a new audit to its history.</p>}
+        {draft.resumeId && (
+          <p className="mt-3 text-xs text-fg-muted">This updates your saved resume and adds a new audit to its history.</p>
+        )}
       </Modal>
     </div>
   );

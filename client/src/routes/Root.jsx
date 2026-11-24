@@ -7,7 +7,13 @@ export default function Root() {
   useThemeSync();
   return (
     <>
-      <Suspense fallback={<div className="mx-auto max-w-6xl p-6"><PageSkeleton /></div>}>
+      <Suspense
+        fallback={
+          <div className="mx-auto max-w-6xl p-6">
+            <PageSkeleton />
+          </div>
+        }
+      >
         <Outlet />
       </Suspense>
       <ScrollRestoration />

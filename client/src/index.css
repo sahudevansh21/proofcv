@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -73,8 +73,9 @@
 }
 
 @theme inline {
-  --font-sans: "Google Sans", "Product Sans", "Google Sans Text", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "Google Sans Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans:
+    'Google Sans', 'Product Sans', 'Google Sans Text', Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Google Sans Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -121,38 +122,112 @@
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ---------- Base ---------- */
-html { background: var(--bg); color: var(--fg); -webkit-text-size-adjust: 100%; }
-body { font-family: var(--font-sans); }
-:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 6px; }
-::selection { background: color-mix(in srgb, var(--primary) 25%, transparent); }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+html {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: var(--font-sans);
+}
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+::selection {
+  background: color-mix(in srgb, var(--primary) 25%, transparent);
 }
 
-dialog::backdrop { background: rgb(32 33 36 / 0.45); backdrop-filter: blur(2px); }
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+dialog::backdrop {
+  background: rgb(32 33 36 / 0.45);
+  backdrop-filter: blur(2px);
+}
 
 /* ---------- Highlights (colour + underline style so meaning never relies on colour alone) ---------- */
-mark { background: transparent; color: inherit; }
-.hl { border-radius: 3px; padding: 0 1px; cursor: help; }
-.hl-matched { background: var(--success-soft); box-shadow: inset 0 -2px var(--success); }
-.hl-reworded { background: var(--warning-soft); box-shadow: inset 0 -2px var(--warning); text-decoration: underline dotted var(--warning-fg); text-underline-offset: 4px; }
-.hl-missing { background: var(--danger-soft); box-shadow: inset 0 -2px var(--danger); }
-.hl-weak { background: var(--danger-soft); text-decoration: underline wavy var(--danger); text-underline-offset: 3px; }
-.hl-placeholder { background: #fde68a; color: #4a3000; font-weight: 600; outline: 1px dashed #b45309; }
-.dark .hl-placeholder { background: #5c4400; color: #fde293; outline-color: #fdd663; }
+mark {
+  background: transparent;
+  color: inherit;
+}
+.hl {
+  border-radius: 3px;
+  padding: 0 1px;
+  cursor: help;
+}
+.hl-matched {
+  background: var(--success-soft);
+  box-shadow: inset 0 -2px var(--success);
+}
+.hl-reworded {
+  background: var(--warning-soft);
+  box-shadow: inset 0 -2px var(--warning);
+  text-decoration: underline dotted var(--warning-fg);
+  text-underline-offset: 4px;
+}
+.hl-missing {
+  background: var(--danger-soft);
+  box-shadow: inset 0 -2px var(--danger);
+}
+.hl-weak {
+  background: var(--danger-soft);
+  text-decoration: underline wavy var(--danger);
+  text-underline-offset: 3px;
+}
+.hl-placeholder {
+  background: #fde68a;
+  color: #4a3000;
+  font-weight: 600;
+  outline: 1px dashed #b45309;
+}
+.dark .hl-placeholder {
+  background: #5c4400;
+  color: #fde293;
+  outline-color: #fdd663;
+}
 
 /* ---------- Print report ---------- */
 @media print {
-  .no-print { display: none !important; }
-  .print-only { display: block !important; }
-  html, body { background: #fff !important; color: #000 !important; }
-  .print-break { break-inside: avoid; }
-  a { color: inherit; text-decoration: none; }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .print-break {
+    break-inside: avoid;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
-.print-only { display: none; }
+.print-only {
+  display: none;
+}

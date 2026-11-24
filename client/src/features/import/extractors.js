@@ -25,8 +25,10 @@ export async function extractText(file) {
   if (file.size > MAX_BYTES) throw new UnsupportedFileError('That file is over 1 MB. Paste the text instead.');
   const extractor = extractors.find((x) => x.accepts(file));
   if (!extractor) {
-    if (file.type.startsWith('image/')) throw new UnsupportedFileError('Reading text from images isn\'t available yet. Copy the text from your resume and paste it.');
-    if (file.type === 'application/pdf' || /\.pdf$/i.test(file.name)) throw new UnsupportedFileError('PDF import isn\'t available yet. Open your PDF, select all the text, and paste it.');
+    if (file.type.startsWith('image/'))
+      throw new UnsupportedFileError("Reading text from images isn't available yet. Copy the text from your resume and paste it.");
+    if (file.type === 'application/pdf' || /\.pdf$/i.test(file.name))
+      throw new UnsupportedFileError("PDF import isn't available yet. Open your PDF, select all the text, and paste it.");
     throw new UnsupportedFileError('Only .txt or .md files can be imported. Or paste your text.');
   }
   const text = await extractor.extract(file);

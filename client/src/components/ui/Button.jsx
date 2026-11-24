@@ -32,7 +32,12 @@ export const Button = forwardRef(function Button(
       {IconRight && <IconRight aria-hidden className="h-4 w-4 shrink-0" />}
     </>
   );
-  if (to) return <Link ref={ref} to={to} className={cls} {...rest}>{content}</Link>;
+  if (to)
+    return (
+      <Link ref={ref} to={to} className={cls} {...rest}>
+        {content}
+      </Link>
+    );
   return (
     <button ref={ref} type={type} className={cls} disabled={disabled || loading} aria-busy={loading || undefined} {...rest}>
       {content}
@@ -40,7 +45,10 @@ export const Button = forwardRef(function Button(
   );
 });
 
-export const IconButton = forwardRef(function IconButton({ icon: Icon, label, variant = 'ghost', size = 'md', className = '', ...rest }, ref) {
+export const IconButton = forwardRef(function IconButton(
+  { icon: Icon, label, variant = 'ghost', size = 'md', className = '', ...rest },
+  ref,
+) {
   const dim = size === 'sm' ? 'h-8 w-8' : 'h-10 w-10';
   return (
     <button

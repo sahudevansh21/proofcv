@@ -21,7 +21,9 @@ export function toAuditSnapshot({ draft, result, role, resumeId }) {
     role: role ?? 'Custom job description',
     coverageNow: result.coverage?.now ?? null,
     coveragePotential: result.coverage?.potential ?? null,
-    counts: result.coverage ? { matched: result.coverage.matched, reworded: result.coverage.reworded, missing: result.coverage.missing } : null,
+    counts: result.coverage
+      ? { matched: result.coverage.matched, reworded: result.coverage.reworded, missing: result.coverage.missing }
+      : null,
     bulletStats: result.bulletStats,
     skills: result.skills.map(({ name, status, level }) => ({ name, status, level })),
     fixes: result.fixes,

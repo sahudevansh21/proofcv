@@ -9,12 +9,14 @@ export default function NotFound() {
       <EmptyState
         icon={FileSearch}
         title="404: this page isn't here"
-        action={(
+        action={
           <div className="flex flex-wrap justify-center gap-2">
-            <Button to="/" variant="secondary" icon={ArrowLeft}>Back home</Button>
+            <Button to="/" variant="secondary" icon={ArrowLeft}>
+              Back home
+            </Button>
             <Button to="/app/audit">Audit my resume</Button>
           </div>
-        )}
+        }
       >
         The link may be old or mistyped.
       </EmptyState>

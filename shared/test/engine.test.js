@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyze, findTerm, gerundToPast, rewriteBullet, extractBullets, PRESETS, SAMPLE_RESUME } from '../src/index.js';
+import {
+  analyze, analyzeBullet, findTerm, gerundToPast, rewriteBullet, extractBullets, PRESETS, SAMPLE_RESUME, SAMPLES, SKILLS,
+} from '../src/index.js';
 
 test('whole-word matching respects tech-name boundaries', () => {
   assert.equal(findTerm('I know JavaScript', 'java').length, 0);
@@ -79,4 +81,84 @@ test('empty and invalid input are handled', () => {
   assert.equal(r.coverage, null);
   assert.ok(r.warnings.length > 0);
   assert.throws(() => analyze(null, ''), TypeError);
+});
+
+test('dictionary has 150+ well-formed, unique skills', () => {
+  assert.ok(SKILLS.length >= 150, `only ${SKILLS.length} skills`);
+  assert.equal(new Set(SKILLS.map((s) => s.id)).size, SKILLS.length);
+  for (const s of SKILLS) {
+    assert.ok(s.aliases.length > 0, `${s.name} has no aliases`);
+    for (const a of s.aliases) assert.ok(!s.evidence.includes(a), `${s.name}: "${a}" is both alias and evidence`);
+  }
+  const categories = new Set(SKILLS.map((s) => s.category));
+  for (const c of ['Language', 'Frontend', 'Backend', 'Database', 'Cloud', 'DevOps', 'AI/ML', 'Data', 'CS Fundamentals', 'Soft Skill']) {
+    assert.ok(categories.has(c), `missing category ${c}`);
+  }
+});
+
+test('light stemming: plurals and starred suffixes', () => {
+  assert.equal(findTerm('Built three REST APIs', 'rest api').length, 1);
+  assert.equal(findTerm('Used classes and inheritance', 'class').length, 1);
+  assert.equal(findTerm('Handled deployment on Render', 'deploy*').length, 1);
+  assert.equal(findTerm('Automated testing', 'test*').length, 1);
+  assert.equal(findTerm('expressed interest', 'express').length, 0);
+});
+
+test('special tech names keep their symbols', () => {
+  assert.equal(findTerm('Knows C# and .NET', 'c#').length, 1);
+  assert.equal(findTerm('Knows C# and .NET', '.net').length, 1);
+  assert.equal(findTerm('React.js app', 'react.js').length, 1);
+  assert.equal(findTerm('Built with Node.js', 'node.js').length, 1);
+});
+
+test('weighting: minimum/must -> required, bonus/preferred -> preferred', () => {
+  const jd = 'Minimum qualifications:\n- Python\n\nBonus:\n- Docker\n\nAbout you\n- Must know Git\n- Kubernetes is preferred';
+  const level = (name) => analyze('', jd).skills.find((s) => s.name === name).level;
+  assert.equal(level('Python'), 'required');
+  assert.equal(level('Docker'), 'preferred');
+  assert.equal(level('Git'), 'required');
+  assert.equal(level('Kubernetes'), 'preferred');
+});
+
+test('coverage now counts exact matches only; potential adds worded-differently', () => {
+  const r = analyze('- Built a site with React and GitHub', 'Requirements:\n- React\n- Version control');
+  assert.equal(r.coverage.now, 50);
+  assert.equal(r.coverage.potential, 100);
+  assert.equal(r.skills.find((s) => s.name === 'Version Control').status, 'reworded');
+});
+
+test('missing skills are never suggested as claims', () => {
+  const r = analyze('- Built a CLI in Python', 'Requirements:\n- Docker\n- Kubernetes');
+  for (const s of r.skills.filter((x) => x.status === 'missing')) {
+    assert.match(s.advice, /Don't claim this unless it's true/);
+  }
+  for (const f of r.fixes) assert.doesNotMatch(f, /add (docker|kubernetes)/i);
+});
+
+const digits = (t) => (t.replace(/\[[^\]]+\]/g, '').match(/\d+(?:[.,]\d+)?/g) ?? []).sort();
+
+test('no invented numbers: rewrites only contain numbers from the original bullet', () => {
+  const extra = [
+    'Worked on a chatbot',
+    'Helped the team build a dashboard for the canteen',
+    'Responsible for optimizing queries',
+    'Involved in training a CNN on 4,000 images with 91% accuracy',
+    'Made a game in Unity',
+    'Participated in Smart India Hackathon 2025',
+  ];
+  const bullets = [
+    ...SAMPLES.flatMap((s) => analyze(s.resume, '').bullets.map((b) => b.text)),
+    ...extra,
+  ];
+  for (const text of bullets) {
+    const { rewrite } = analyzeBullet({ text, start: 0, end: text.length });
+    if (!rewrite) continue;
+    assert.deepEqual(digits(rewrite), digits(text), `invented number in: "${rewrite}"`);
+  }
+});
+
+test('placeholders in the resume are highlighted and counted', () => {
+  const r = analyze('PROJECTS\n- Developed a portal used by [N] users', '');
+  assert.equal(r.placeholders, 1);
+  assert.ok(r.highlights.some((h) => h.kind === 'placeholder'));
 });

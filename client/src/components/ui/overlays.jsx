@@ -14,11 +14,16 @@ function useDialog(open, onClose) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return undefined;
-    const handle = (e) => { e.preventDefault(); onClose(); };
+    const handle = (e) => {
+      e.preventDefault();
+      onClose();
+    };
     el.addEventListener('cancel', handle);
     return () => el.removeEventListener('cancel', handle);
   }, [onClose]);
-  const onBackdrop = (e) => { if (e.target === ref.current) onClose(); };
+  const onBackdrop = (e) => {
+    if (e.target === ref.current) onClose();
+  };
   return { ref, onBackdrop };
 }
 
@@ -36,7 +41,9 @@ export function Modal({ open, onClose, title, description, children, footer, siz
         <div className="animate-fade-up">
           <div className="flex items-start justify-between gap-4 border-b border-line px-5 py-4">
             <div>
-              <h2 id="modal-title" className="text-lg font-semibold">{title}</h2>
+              <h2 id="modal-title" className="text-lg font-semibold">
+                {title}
+              </h2>
               {description && <p className="mt-0.5 text-sm text-fg-muted">{description}</p>}
             </div>
             <IconButton icon={X} label="Close" size="sm" onClick={onClose} />
@@ -86,24 +93,39 @@ const TOAST_TONE = {
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
   const dismiss = useCallback((id) => setToasts((t) => t.filter((x) => x.id !== id)), []);
-  const toast = useCallback((message, { tone = 'info', duration = 3500 } = {}) => {
-    const id = Math.random().toString(36).slice(2);
-    setToasts((t) => [...t.slice(-3), { id, message, tone }]);
-    setTimeout(() => dismiss(id), duration);
-  }, [dismiss]);
+  const toast = useCallback(
+    (message, { tone = 'info', duration = 3500 } = {}) => {
+      const id = Math.random().toString(36).slice(2);
+      setToasts((t) => [...t.slice(-3), { id, message, tone }]);
+      setTimeout(() => dismiss(id), duration);
+    },
+    [dismiss],
+  );
   const api = useMemo(() => ({ toast, dismiss }), [toast, dismiss]);
 
   return (
     <ToastContext.Provider value={api}>
       {children}
-      <div aria-live="polite" role="status" className="pointer-events-none fixed inset-x-0 bottom-4 z-[100] flex flex-col items-center gap-2 px-4 no-print">
+      <div
+        aria-live="polite"
+        role="status"
+        className="pointer-events-none fixed inset-x-0 bottom-4 z-[100] flex flex-col items-center gap-2 px-4 no-print"
+      >
         {toasts.map((t) => {
           const Icon = TOAST_ICON[t.tone];
           return (
-            <div key={t.id} className={`pointer-events-auto flex w-full max-w-sm animate-fade-up items-start gap-2.5 rounded-xl border bg-surface px-4 py-3 text-sm shadow-[var(--shadow-pop)] ${TOAST_TONE[t.tone]}`}>
+            <div
+              key={t.id}
+              className={`pointer-events-auto flex w-full max-w-sm animate-fade-up items-start gap-2.5 rounded-xl border bg-surface px-4 py-3 text-sm shadow-[var(--shadow-pop)] ${TOAST_TONE[t.tone]}`}
+            >
               <Icon aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
               <p className="flex-1 text-fg">{t.message}</p>
-              <button type="button" onClick={() => dismiss(t.id)} className="text-fg-subtle hover:text-fg" aria-label="Dismiss notification">
+              <button
+                type="button"
+                onClick={() => dismiss(t.id)}
+                className="text-fg-subtle hover:text-fg"
+                aria-label="Dismiss notification"
+              >
                 <X aria-hidden className="h-4 w-4" />
               </button>
             </div>

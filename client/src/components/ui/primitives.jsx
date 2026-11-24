@@ -2,7 +2,10 @@ import { useId, useRef } from 'react';
 
 export function Card({ as: Tag = 'div', className = '', padded = true, children, ...rest }) {
   return (
-    <Tag className={`rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card)] ${padded ? 'p-5' : ''} ${className}`} {...rest}>
+    <Tag
+      className={`rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card)] ${padded ? 'p-5' : ''} ${className}`}
+      {...rest}
+    >
       {children}
     </Tag>
   );
@@ -19,7 +22,10 @@ const TONES = {
 /** Small label. Pass an icon so meaning never relies on colour alone. */
 export function Badge({ tone = 'neutral', icon: Icon, className = '', children, ...rest }) {
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${TONES[tone]} ${className}`} {...rest}>
+    <span
+      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${TONES[tone]} ${className}`}
+      {...rest}
+    >
       {Icon && <Icon aria-hidden className="h-3.5 w-3.5 shrink-0" />}
       {children}
     </span>
@@ -40,13 +46,19 @@ export function Tabs({ tabs, value, onChange, label, className = '', size = 'md'
   };
   const pad = size === 'sm' ? 'px-2.5 py-1 text-xs' : 'px-3.5 py-1.5 text-sm';
   return (
-    <div role="tablist" aria-label={label} className={`inline-flex max-w-full gap-1 overflow-x-auto rounded-xl bg-surface-2 p-1 ${className}`}>
+    <div
+      role="tablist"
+      aria-label={label}
+      className={`inline-flex max-w-full gap-1 overflow-x-auto rounded-xl bg-surface-2 p-1 ${className}`}
+    >
       {tabs.map((t, i) => {
         const selected = t.value === value;
         return (
           <button
             key={t.value}
-            ref={(el) => { refs.current[i] = el; }}
+            ref={(el) => {
+              refs.current[i] = el;
+            }}
             id={`${baseId}-${t.value}`}
             type="button"
             role="tab"
@@ -77,7 +89,9 @@ export function Tooltip({ content, children, side = 'top' }) {
   const pos = side === 'top' ? 'bottom-full mb-2' : 'top-full mt-2';
   return (
     <span className="group relative inline-flex">
-      <span aria-describedby={id} className="inline-flex">{children}</span>
+      <span aria-describedby={id} className="inline-flex">
+        {children}
+      </span>
       <span
         role="tooltip"
         id={id}
@@ -95,8 +109,14 @@ export function Skeleton({ className = '' }) {
 
 export function EmptyState({ icon: Icon, title, children, action, className = '' }) {
   return (
-    <div className={`flex flex-col items-center rounded-[var(--radius-card)] border border-dashed border-line-strong px-6 py-10 text-center ${className}`}>
-      {Icon && <span className="mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-primary-soft text-primary-soft-fg"><Icon aria-hidden className="h-6 w-6" /></span>}
+    <div
+      className={`flex flex-col items-center rounded-[var(--radius-card)] border border-dashed border-line-strong px-6 py-10 text-center ${className}`}
+    >
+      {Icon && (
+        <span className="mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-primary-soft text-primary-soft-fg">
+          <Icon aria-hidden className="h-6 w-6" />
+        </span>
+      )}
       <h3 className="text-base font-semibold text-fg">{title}</h3>
       {children && <div className="mt-1 max-w-md text-sm text-fg-muted">{children}</div>}
       {action && <div className="mt-4">{action}</div>}
