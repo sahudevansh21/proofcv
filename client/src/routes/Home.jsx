@@ -46,7 +46,7 @@ const STEPS = [
   {
     icon: FileSearch,
     title: 'Paste two things',
-    body: 'Your resume and the internship posting you want. Or start from one of four samples.',
+    body: 'Your resume and the internship posting you want. Or start from one of 30 samples across tech and non-tech roles.',
   },
   {
     icon: Search,
@@ -398,7 +398,7 @@ export default function Home() {
         <section className="px-5 py-20 sm:px-8" aria-labelledby="proof-title">
           <div className="mx-auto grid max-w-[1320px] grid-cols-1 items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)]">
             <div className="lg:sticky lg:top-28">
-              <p className={mono}>Replayed from the four sample audits</p>
+              <p className={mono}>Replayed from the 30 parody sample audits</p>
               <h2 id="proof-title" className="mt-3 font-display text-[clamp(40px,5vw,64px)] font-semibold uppercase leading-[0.95]">
                 Proof, not promises
               </h2>

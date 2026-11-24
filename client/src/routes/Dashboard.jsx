@@ -3,6 +3,7 @@ import { ArrowRight, ClipboardPaste, FileText, History as HistoryIcon, Sparkles,
 import { Badge, Button, Card, EmptyState, IconButton, useToast } from '../components/ui/index.js';
 import { PRESETS, SAMPLES, loadSample } from '../features/samples/samples.js';
 import { EMPTY_DRAFT, useStore, useUserData } from '../lib/store.js';
+import { RoleSelect } from '../features/samples/RoleSelect.jsx';
 import { formatDate, formatDateTime, useDocumentTitle } from '../lib/hooks.js';
 
 /** Tiny inline trend line for a resume's coverage over time. */
@@ -92,23 +93,24 @@ export default function Dashboard() {
           <Card as="button" type="button" onClick={quick.sample} className="text-left transition hover:shadow-[var(--shadow-pop)]">
             <Sparkles aria-hidden className="h-6 w-6 text-g-yellow" />
             <p className="mt-3 font-semibold text-fg">Try a sample</p>
-            <p className="mt-1 text-sm text-fg-muted">{SAMPLES[0].name}&apos;s resume against an SDE intern posting.</p>
+            <p className="mt-1 text-sm text-fg-muted">
+              {SAMPLES[0].name}&apos;s parody resume against a {PRESETS.find((p) => p.id === SAMPLES[0].presetId)?.role} posting.
+            </p>
           </Card>
           <Card className="flex flex-col">
             <Target aria-hidden className="h-6 w-6 text-g-green" />
             <p className="mt-3 font-semibold text-fg">Role presets</p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {PRESETS.map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => quick.preset(p)}
-                  className="rounded-full border border-line px-2.5 py-1 text-xs font-medium text-fg-muted hover:border-primary hover:text-primary"
-                >
-                  {p.role.replace(' Intern', '')}
-                </button>
-              ))}
-            </div>
+            <p className="mt-1 text-sm text-fg-muted">{PRESETS.length} postings, tech and non-tech.</p>
+            <RoleSelect
+              className="mt-3"
+              label="Start an audit with a role posting"
+              value=""
+              emptyLabel="Pick a role…"
+              onChange={(id) => {
+                const p = PRESETS.find((x) => x.id === id);
+                if (p) quick.preset(p);
+              }}
+            />
           </Card>
         </div>
         {hasDraft && (

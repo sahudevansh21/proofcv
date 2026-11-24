@@ -9,6 +9,7 @@ import { toAuditSnapshot, useAudit } from '../features/audit/useAudit.js';
 import { PRESETS, SAMPLES, loadSample, presetById } from '../features/samples/samples.js';
 import { ACCEPT_ATTR, extractText } from '../features/import/extractors.js';
 import { EMPTY_DRAFT, useStore } from '../lib/store.js';
+import { ROLE_GROUPS } from '../features/samples/RoleSelect.jsx';
 import { formatDateTime, useDocumentTitle } from '../lib/hooks.js';
 
 const RESUME_LEGEND = [
@@ -207,10 +208,10 @@ export default function Audit() {
             }}
             className="w-44"
           >
-            <option value="">Load sample…</option>
+            <option value="">Load a parody sample…</option>
             {SAMPLES.map((s) => (
               <option key={s.id} value={s.id}>
-                {s.name} ({presetById(s.presetId)?.role.replace(' Intern', '')})
+                {s.name} · {presetById(s.presetId)?.role}
               </option>
             ))}
           </Select>
@@ -226,10 +227,14 @@ export default function Audit() {
             <option value="" disabled>
               Role preset…
             </option>
-            {PRESETS.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.role}
-              </option>
+            {ROLE_GROUPS.map((g) => (
+              <optgroup key={g.label} label={g.label}>
+                {g.presets.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.role}
+                  </option>
+                ))}
+              </optgroup>
             ))}
           </Select>
           <Button variant="secondary" icon={Printer} onClick={print} disabled={!hasInput}>

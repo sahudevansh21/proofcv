@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { MoveHorizontal } from 'lucide-react';
-import { analyze, PRESETS, SAMPLES } from '@proofcv/shared';
+import { analyze, PARODY_NOTICE, PRESETS, SAMPLES } from '@proofcv/shared';
 
 const mono = 'font-mono text-[11px] uppercase tracking-[0.14em]';
 
@@ -140,8 +140,8 @@ export function ResumeCompare() {
         ))}
       </dl>
       <p className="mt-4 font-serif text-[15px] italic text-fg-muted">
-        {sample.name}’s sample resume against the {preset.role} posting, exactly as the engine returns it. Coverage is a rule
-        of thumb, not a hiring score.
+        {sample.name}’s parody resume against the {preset.role} posting, exactly as the engine returns it. Coverage is a rule
+        of thumb, not a hiring score. {PARODY_NOTICE}
       </p>
     </div>
   );

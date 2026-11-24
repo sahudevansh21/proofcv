@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react';
-import { analyze, PRESETS } from '@proofcv/shared';
+import { analyze, PARODY_NOTICE, PRESETS, SAMPLES } from '@proofcv/shared';
+import { RoleSelect } from '../features/samples/RoleSelect.jsx';
 import { ZNav } from '../components/layout/ZNav.jsx';
 import { useToast } from '../components/ui/index.js';
 import { ITEMS } from '../features/gallery/items.js';
@@ -106,20 +107,7 @@ function ResumeDetails({ item, presetId, setPresetId, onSaved }) {
   return (
     <>
       <p className={`${mono} mt-8`}>Job posting</p>
-      <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Job posting">
-        {PRESETS.map((p) => (
-          <button
-            key={p.id}
-            type="button"
-            role="radio"
-            aria-checked={p.id === preset.id}
-            className={chip(p.id === preset.id)}
-            onClick={() => setPresetId(p.id)}
-          >
-            {p.role.replace(/ Intern$/, '')}
-          </button>
-        ))}
-      </div>
+      <RoleSelect value={preset.id} onChange={setPresetId} className="mt-3" />
 
       <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-[6px] bg-[#3a3550]/20">
         <div className="bg-[#fbf3e4] p-5">
@@ -204,49 +192,6 @@ function ResumeDetails({ item, presetId, setPresetId, onSaved }) {
   );
 }
 
-function PostingDetails({ item }) {
-  const navigate = useNavigate();
-  const skills = useMemo(() => analyze('', item.text).skills, [item.text]);
-  const use = () => {
-    ensureSession();
-    useStore.getState().updateDraft({ jd: item.text, presetId: item.presetId });
-    navigate('/app/audit');
-  };
-  return (
-    <>
-      {['required', 'standard', 'preferred'].map((level) => {
-        const list = skills.filter((s) => s.level === level);
-        if (!list.length) return null;
-        return (
-          <div key={level} className="mt-6">
-            <p className={`${mono} mb-2`}>
-              {level === 'standard' ? 'Mentioned' : level} · {list.length}
-            </p>
-            <ul className="flex flex-wrap gap-1.5">
-              {list.map((s) => (
-                <li
-                  key={s.id}
-                  className="rounded-full border border-[#3a3550]/25 bg-[#fff9ef] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.06em]"
-                >
-                  {s.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      })}
-      <button
-        type="button"
-        onClick={use}
-        className="mt-8 flex h-[54px] w-full items-center justify-center gap-2 bg-[#3a3550] font-display text-[17px] font-medium uppercase tracking-[0.12em] text-[#fff9ec] hover:bg-[#2a2640]"
-      >
-        Use this posting <ArrowRight className="h-4 w-4" />
-      </button>
-      <p className="mt-2 font-serif text-[15px] italic opacity-75">Keeps whatever resume is already in your workspace.</p>
-    </>
-  );
-}
-
 function BlankDetails() {
   const navigate = useNavigate();
   const start = () => {
@@ -303,7 +248,7 @@ function PrintPage({ index, fromRect, onClose, onOpen, onSaved }) {
   }, [fromRect]);
 
   const others = [1, 2, 3, 4].map((k) => (index + k) % ITEMS.length);
-  const kicker = item.kind === 'posting' ? 'Sample job posting' : item.kind === 'blank' ? 'Your turn' : 'Sample resume';
+  const kicker = item.kind === 'blank' ? 'Your turn' : 'Parody sample resume';
 
   return (
     <div
@@ -350,9 +295,9 @@ function PrintPage({ index, fromRect, onClose, onOpen, onSaved }) {
           <p className="mt-3 font-serif text-[22px] italic">{item.subtitle}</p>
           <p className={`${mono} mt-3 opacity-70`}>{item.meta}</p>
           <p className="mt-6 max-w-[56ch] font-serif text-[19px] leading-relaxed">{item.description}</p>
+          {item.kind === 'resume' && <p className={`${mono} mt-4 max-w-[60ch] leading-relaxed opacity-65`}>{PARODY_NOTICE}</p>}
 
           {item.kind === 'resume' && <ResumeDetails item={item} presetId={presetId} setPresetId={setPresetId} onSaved={onSaved} />}
-          {item.kind === 'posting' && <PostingDetails item={item} />}
           {item.kind === 'blank' && <BlankDetails />}
 
           <div className="mt-6">
@@ -397,8 +342,9 @@ function ListView({ onOpen }) {
     <section className="light-scope min-h-dvh bg-[#fff9ec] px-5 pb-20 pt-[112px] text-[#3a3550] sm:px-8" aria-label="All samples">
       <h1 className="font-display text-[clamp(40px,6vw,72px)] font-semibold uppercase leading-none">ProofCV — all samples</h1>
       <p className="mt-3 max-w-[60ch] font-serif text-[19px] italic">
-        Pick a resume. Four fictional student resumes, four internship postings, and a frame for yours.
+        Pick a resume. {SAMPLES.length} parody samples, one for each of India’s top early-career roles, and a frame for yours.
       </p>
+      <p className={`${mono} mt-4 max-w-[70ch] leading-relaxed opacity-70`}>{PARODY_NOTICE}</p>
       <div className="mt-10">
         <ArcList items={ITEMS} getImage={printUrl} onOpen={onOpen} label="Sample resumes" />
       </div>
@@ -511,7 +457,7 @@ export default function Landing() {
             />
 
             <h2 className="sr-only">
-              A gallery of sample resumes and job postings. Use the arrow buttons or keys to move, or switch to the list view.
+              A gallery of parody sample resumes. Use the arrow buttons or keys to move, or switch to the list view.
             </h2>
 
             <div className="pointer-events-none absolute bottom-[96px] left-5 md:bottom-[calc(56*var(--u))] z-20 sm:left-8">
@@ -544,7 +490,7 @@ export default function Landing() {
                   className="pointer-events-auto h-11 rounded-full bg-[#3a3550] px-6 font-mono text-[12px] uppercase tracking-[0.14em] text-[#fff9ec] shadow-lg hover:bg-[#2a2640]"
                   onClick={() => openItem(focus, gallery.current?.rectOfFocused())}
                 >
-                  {focusedItem.kind === 'posting' ? 'Open the posting' : 'Open the resume'}
+                  Open the resume
                 </button>
               ) : (
                 <p className={`${mono} text-center opacity-70`}>
@@ -561,7 +507,7 @@ export default function Landing() {
                 className="absolute bottom-24 left-1/2 z-20 h-11 -translate-x-1/2 rounded-full bg-[#3a3550] px-6 font-mono text-[12px] uppercase tracking-[0.14em] text-[#fff9ec] md:hidden"
                 onClick={() => openItem(focus, gallery.current?.rectOfFocused())}
               >
-                {focusedItem.kind === 'posting' ? 'Open the posting' : 'Open the resume'}
+                Open the resume
               </button>
             )}
 

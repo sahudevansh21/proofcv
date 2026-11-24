@@ -6,6 +6,7 @@ import { Logo } from '../components/layout/Brand.jsx';
 import { useStore } from '../lib/store.js';
 import { useDocumentTitle } from '../lib/hooks.js';
 import { safeNext } from './Login.jsx';
+import { RoleSelect } from '../features/samples/RoleSelect.jsx';
 
 const YEARS = ['1st year', '2nd year', '3rd year', '4th year', 'Graduate'];
 const field =
@@ -119,22 +120,17 @@ export default function Welcome() {
               <input id="w-branch" placeholder="e.g. B.Tech CSE" value={form.branch} onChange={set('branch')} className={field} />
             </div>
 
-            <fieldset>
-              <legend className={label}>Role you’re aiming for</legend>
-              <div className="flex flex-wrap gap-2">
-                {PRESETS.map((p) => (
-                  <button
-                    key={p.id}
-                    type="button"
-                    aria-pressed={form.targetRole === p.id}
-                    className={chip(form.targetRole === p.id)}
-                    onClick={() => setForm((f) => ({ ...f, targetRole: f.targetRole === p.id ? '' : p.id }))}
-                  >
-                    {p.role.replace(/ Intern$/, '')}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
+            <div>
+              <label htmlFor="w-role" className={label}>
+                Role you’re aiming for
+              </label>
+              <RoleSelect
+                id="w-role"
+                value={form.targetRole}
+                emptyLabel="Not sure yet"
+                onChange={(targetRole) => setForm((f) => ({ ...f, targetRole }))}
+              />
+            </div>
           </div>
 
           <button

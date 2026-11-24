@@ -13,7 +13,7 @@ const KINDS = {
   coverage: { icon: Gauge, tone: 'bg-band text-fg', label: 'Coverage' },
 };
 
-/** Builds the feed from real engine output on the four sample resumes, interleaved so kinds alternate. */
+/** Builds the feed from real engine output on the 30 parody sample resumes, interleaved so kinds alternate. */
 function buildEvents() {
   const perSample = SAMPLES.map((sample) => {
     const preset = PRESETS.find((p) => p.id === sample.presetId);

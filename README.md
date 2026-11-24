@@ -19,10 +19,10 @@ Built for **MLH HackDay: The Battle Royale** (GDG on Campus AITR). Problem state
 ## Features
 
 - **Home** (`/`): hero, real before/after bullet, three buckets with live coverage, how it works, honest-by-design, FAQ.
-- **Gallery** (`/gallery`): a walkable 3D gallery (three.js, lazy-loaded) where sample resumes and job postings hang as prints drawn on canvas. Click to look closer, open a print page with live coverage and buckets, save to "Your audits", or switch to the list view. Falls back to the list if WebGL is unavailable; honours reduced motion.
+- **Gallery** (`/gallery`): a walkable 3D gallery (three.js, lazy-loaded) where the 30 parody sample resumes hang as prints drawn on canvas. Click to look closer, open a print page with live coverage and buckets, save to "Your audits", or switch to the list view. Falls back to the list if WebGL is unavailable; honours reduced motion.
 - **Auth:** centred log in / sign up card with Google, LinkedIn (OIDC) and GitHub (Firebase, behind env flag), forgot password, a one-time "about you" step (year, branch, target role preselects a posting), and a prominent **Continue as guest** with every feature.
   Without Firebase keys, accounts are local to the device and Google falls back to a demo profile. `/app/*` routes redirect to `/login?next=…`.
-- **Audit workspace:** resume and JD side by side (tabs on mobile), role presets, 4 samples, live debounced re-scoring, inline highlights
+- **Audit workspace:** resume and JD side by side (tabs on mobile), 30 role presets (tech and non-tech, grouped), 30 parody samples, live debounced re-scoring, inline highlights
   (green matched, amber worded differently, red weak/not found, yellow placeholders) with hover tips, coverage ring, bucket tabs,
   bullet inspector (checklist, verb swap by intent, metric questions by bullet type, live before/after, Apply to resume),
   top-5 fixes, new-bullet template, format checklist, print/save report, `.txt` import.
@@ -39,7 +39,7 @@ shared/            Rule-based engine (no deps), used by client and server, 17 te
   src/match.js     Whole-word matching that keeps C++, C#, .NET, Node.js intact; plural + suffix stemming
   src/bullets.js   Bullet extraction, checklist, weak-phrase detection, placeholder rewriter
   src/analyze.js   JD importance weighting, 3 buckets, coverage, highlights, top-5 fixes
-  src/presets.js   4 role JDs and 4 fictional sample resumes
+  src/presets.js   30 role JDs (top early-career roles in India) and 30 parody sample resumes
 server/            Express: /api/health, /api/presets, /api/skills; serves the built client (4 tests)
 client/            React 19, Vite 6, Tailwind 4, React Router, Zustand
   src/components/ui        Button, IconButton, Card, Badge, Tabs, Tooltip, Modal, Drawer, Toast, Input, Textarea, Select, Skeleton, EmptyState, ProgressRing, Stepper
@@ -69,7 +69,7 @@ Optional Firebase: copy `client/.env.example` to `client/.env.local` and fill in
 
 ### Sample resume images
 
-Drop PNG/JPG/WebP previews named after sample IDs (`riya-sde`, `arjun-frontend`, `sana-data`, `kabir-ml`) into
+Drop PNG/JPG/WebP previews named after sample IDs (`srk`, `amitabh`, … see `SAMPLES` in `shared/src/presets.js`) into
 `client/src/assets/samples/`. Samples without an image show a rendered text preview.
 
 ### Deploy
@@ -80,9 +80,13 @@ The app never needs the API in production; presets ship in the bundle.
 ## 60-second demo
 
 1. **Problem (5s):** "First-years write vague bullets and miss the posting's keywords. Coaches cost money."
-2. **Landing → See a sample (5s):** guest mode, no sign-up. Audit opens with Riya's resume and an SDE intern JD.
+2. **Landing → See a sample (5s):** guest mode, no sign-up. Audit opens with the first parody sample (Shah Rukh Khan) and a Software Developer JD.
 3. **Coverage (10s):** *Coverage now 28%*, *after rewording true skills 66%*. "Not an ATS score, a rule of thumb for this posting."
 4. **Buckets (15s):** *Worded differently*: GitHub → version control, Express endpoints → REST APIs. *Not found*: SQL, Docker. "It will never tell you to claim these."
 5. **Rewrite (15s):** Bullet inspector: "Worked on…" → "Developed…, used by [N] users". Apply stays disabled until you type your real number. Apply → bullets update live.
    Reword one true skill in the resume (e.g. "GitHub" → "Git/GitHub (version control)") and watch coverage climb.
 6. **Close (10s):** Save audit → Dashboard trend → "Runs in your browser, free, and zero fiction."
+
+## Sample data
+
+The 30 samples use celebrity names for fun. Every resume is fictional and is not about, written by, or endorsed by the person named; the UI shows this notice wherever samples appear.

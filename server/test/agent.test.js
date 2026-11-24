@@ -44,7 +44,7 @@ test('guardDraft cleans every section and explains what changed', () => {
 test('readInput validates action, role and size', () => {
   assert.throws(() => readInput({ action: 'x' }), AgentError);
   assert.throws(() => readInput({ action: 'next', answers: [] }), /role/);
-  assert.equal(readInput({ action: 'next', presetId: 'sde', answers: [] }).role, 'Software Engineering Intern');
+  assert.equal(readInput({ action: 'next', presetId: 'sde', answers: [] }).role, 'Software Developer');
   assert.throws(() => readInput({ action: 'draft', presetId: 'sde', answers: [{ question: 'q', answer: '' }] }), /at least one/);
 });
 

@@ -4,6 +4,7 @@ import { ArrowRight, CircleAlert, FileSearch, LoaderCircle, RotateCcw, Save, Ski
 import { PRESETS, countPlaceholders } from '@proofcv/shared';
 import { Button, Card, useToast } from '../components/ui/index.js';
 import { CopyButton } from '../features/audit/CopyButton.jsx';
+import { RoleSelect } from '../features/samples/RoleSelect.jsx';
 import { useStore } from '../lib/store.js';
 import { useDocumentTitle } from '../lib/hooks.js';
 
@@ -12,8 +13,6 @@ const MIN_ANSWERS_TO_BUILD = 2;
 const label = 'mb-1.5 block font-mono text-[11px] uppercase tracking-[0.14em] text-fg-muted';
 const field =
   'w-full rounded-[6px] border border-line-strong bg-surface px-3.5 py-2.5 font-serif text-[16px] text-fg placeholder:text-fg-subtle outline-none focus:border-fg focus:ring-2 focus:ring-[#fceb93]';
-const chip = (on) =>
-  `h-9 rounded-full border px-4 font-mono text-[11px] uppercase tracking-[0.1em] transition-colors ${on ? 'border-fg bg-chip-on text-[#3a3550]' : 'border-line-strong hover:border-fg'}`;
 
 const EMPTY = { stage: 'setup', presetId: '', role: '', jd: '', profile: {}, answers: [], current: null, resume: null };
 
@@ -277,27 +276,12 @@ export default function Agent() {
         <Card className="mt-6">
           <fieldset>
             <legend className={label}>Role you want</legend>
-            <div className="flex flex-wrap gap-2">
-              {PRESETS.map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  aria-pressed={state.presetId === p.id}
-                  className={chip(state.presetId === p.id)}
-                  onClick={() => patch({ presetId: p.id })}
-                >
-                  {p.role.replace(/ Intern$/, '')}
-                </button>
-              ))}
-              <button
-                type="button"
-                aria-pressed={!state.presetId}
-                className={chip(!state.presetId)}
-                onClick={() => patch({ presetId: '' })}
-              >
-                Something else
-              </button>
-            </div>
+            <RoleSelect
+              label="Role you want"
+              value={state.presetId}
+              emptyLabel="Something else (describe it below)"
+              onChange={(presetId) => patch({ presetId })}
+            />
           </fieldset>
           {!state.presetId && (
             <div className="mt-4 grid gap-4">
