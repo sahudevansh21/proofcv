@@ -61,7 +61,7 @@ function classifySkill(skill, resume, jdHits, levels) {
   if (status === 'matched') advice = `Found as "${resumeTerms[0]}".`;
   else if (status === 'reworded') {
     advice = `Related wording already in your resume: "${resumeTerms.join('", "')}". The posting says "${jdTerm}". If it describes what you really did, consider "${jdTerm} (${resumeTerms[0]})".`;
-  } else advice = `Not found in your resume. Add "${jdTerm}" only if it is true, and say where you used it.`;
+  } else advice = `Don't claim this unless it's true. Have you used ${jdTerm}? Where (project, course, internship)?`;
 
   return {
     id: skill.id,
@@ -140,7 +140,15 @@ export function analyze(resumeInput = '', jdInput = '') {
   const bullets = extractBullets(resume).map(analyzeBullet);
   const sections = detectSections(resume);
 
+  const placeholderRanges = [...resume.matchAll(/\[[^\]\n]{1,40}\]/g)].map((m) => ({
+    start: m.index,
+    end: m.index + m[0].length,
+    kind: 'placeholder',
+    label: 'Placeholder: replace with a true detail, or delete it',
+  }));
+
   const highlights = mergeHighlights([
+    ...placeholderRanges,
     ...bullets.flatMap((b) => b.weak.map((w) => ({ start: w.start, end: w.end, kind: 'weak', label: `Weak: "${w.phrase}". Try: ${w.suggest.join(', ')}` }))),
     ...skills.flatMap((s) => s.resumeRanges.map((r) => ({
       start: r.start,
@@ -190,6 +198,7 @@ export function analyze(resumeInput = '', jdInput = '') {
     },
     sections,
     highlights,
+    placeholders: placeholderRanges.length,
     jdHighlights,
     fixes,
     warnings,

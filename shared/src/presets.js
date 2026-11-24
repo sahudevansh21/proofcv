@@ -109,3 +109,77 @@ Bonus:
 - Deployment of models with Docker or FastAPI`,
   },
 ];
+
+const ARJUN_RESUME = `Arjun Mehta
+B.Tech IT, 1st Year | arjun.mehta@example.com | arjunmehta.dev
+
+EDUCATION
+Acropolis Institute of Technology and Research, Indore
+B.Tech Information Technology (2026 - 2030)
+
+SKILLS
+HTML, CSS, JavaScript, React, Bootstrap, Figma, Git
+
+PROJECTS
+Portfolio Website
+- Made my personal portfolio website with React and Bootstrap
+- Worked on the design in Figma and made it look good on phones
+
+Weather App
+- Built a weather app that calls the OpenWeather API with fetch and shows a 5-day forecast
+- Responsible for handling errors and loading states
+
+ACTIVITIES
+- Helped organise the coding club's web dev workshop`;
+
+const SANA_RESUME = `Sana Qureshi
+B.Tech CSE (Data Science), 2nd Year | sana.q@example.com
+
+EDUCATION
+Acropolis Institute of Technology and Research, Indore
+B.Tech CSE - Data Science (2025 - 2029), CGPA 8.9
+
+SKILLS
+Python, Pandas, NumPy, Matplotlib, MySQL, Excel, Google Sheets
+
+PROJECTS
+Canteen Sales Analysis
+- Worked on canteen sales data in Excel and made charts for the committee
+- Wrote MySQL queries with joins to find the top selling items each month
+
+Student Attendance Insights
+- Did exploratory analysis of attendance records using Pandas and Matplotlib
+- Involved in presenting the findings to the department
+
+CERTIFICATIONS
+- Google Data Analytics (Coursera)`;
+
+const KABIR_RESUME = `Kabir Singh
+B.Tech CSE (AI & ML), 2nd Year | kabir.singh@example.com | github.com/kabirsingh
+
+EDUCATION
+Acropolis Institute of Technology and Research, Indore
+B.Tech CSE - AI & ML (2025 - 2029), CGPA 8.1
+
+SKILLS
+Python, NumPy, Pandas, scikit-learn, Keras, OpenCV, Git
+
+PROJECTS
+Plant Disease Detector
+- Trained a CNN in Keras on 4,000 leaf images to classify 6 plant diseases with 91% accuracy
+- Worked on data augmentation to improve results
+
+Spam Classifier
+- Made a spam classifier with scikit-learn and TF-IDF features
+- Tried different models and picked the best one
+
+ACHIEVEMENTS
+- Participated in a college ML hackathon`;
+
+/** Gallery samples. `image` is optional: drop a PNG at client/public/samples/<id>.png to show it. */
+export const SAMPLES = [
+  { id: 'riya-sde', name: 'Riya Verma', persona: '2nd year · CSE', presetId: 'sde', focus: 'Full-stack projects, vague bullets', resume: SAMPLE_RESUME },
+  { id: 'arjun-frontend', name: 'Arjun Mehta', persona: '1st year · IT', presetId: 'frontend', focus: 'Frontend beginner, few metrics', resume: ARJUN_RESUME },
+  { id: 'sana-data', name: 'Sana Qureshi', persona: '2nd year · Data Science', presetId: 'data', focus: 'Analysis work, weak openers', resume: SANA_RESUME },
+  { id: 'kabir-ml', name: 'Kabir Singh', persona: '2nd year · AI & ML', presetId: 'ml', focus: 'One strong bullet, rest vague', resume: KABIR_RESUME },
+];

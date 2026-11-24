@@ -2,7 +2,7 @@ import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PRESETS, SAMPLE_RESUME, SKILLS } from '@proofcv/shared';
+import { PRESETS, SAMPLE_RESUME, SAMPLES, SKILLS } from '@proofcv/shared';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.resolve(here, '../../client/dist');
@@ -25,7 +25,7 @@ export function createApp({ serveClient = fs.existsSync(DIST) } = {}) {
   api.get('/health', (req, res) => res.json({ ok: true }));
   api.get('/presets', (req, res) => {
     res.set('Cache-Control', 'public, max-age=300');
-    res.json({ sampleResume: SAMPLE_RESUME, presets: PRESETS });
+    res.json({ sampleResume: SAMPLE_RESUME, presets: PRESETS, samples: SAMPLES });
   });
   api.get('/skills', (req, res) => {
     res.set('Cache-Control', 'public, max-age=300');
