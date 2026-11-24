@@ -7,7 +7,7 @@ import { useStore, useUserData } from '../../lib/store.js';
 import { formatDate } from '../../lib/hooks.js';
 
 const LINKS = [
-  { to: '/?view=list', label: 'Samples' },
+  { to: '/gallery', label: 'Gallery' },
   { to: '/app/audit', label: 'Audit' },
   { to: '/about', label: 'About' },
   { to: '/privacy', label: 'Privacy' },

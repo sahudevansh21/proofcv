@@ -19,6 +19,7 @@ const PROVIDER = {
 export default function SettingsPage() {
   useDocumentTitle('Settings');
   const session = useStore((s) => s.session);
+  const profile = useStore((s) => (s.session ? s.profiles?.[s.session.id] : null));
   const theme = useStore((s) => s.theme);
   const setTheme = useStore((s) => s.setTheme);
   const exportMyData = useStore((s) => s.exportMyData);
@@ -72,12 +73,26 @@ export default function SettingsPage() {
             </>
           )}
           <dt className="text-fg-muted">Type</dt>
-          <dd className="text-fg">{PROVIDER[session?.provider]}</dd>
+          <dd className="text-fg">
+            {PROVIDER[session?.provider]}
+            {session?.via ? ` (${session.via})` : ''}
+          </dd>
+          {profile && !profile.skipped && (
+            <>
+              <dt className="text-fg-muted">Studying</dt>
+              <dd className="text-fg">{[profile.year, profile.branch].filter(Boolean).join(' · ') || '–'}</dd>
+            </>
+          )}
         </dl>
         {!FIREBASE_ENABLED && session?.provider !== 'guest' && (
           <p className="mt-3 rounded-xl bg-surface-2 px-3 py-2 text-xs text-fg-muted">
             Cloud sign-in isn&apos;t configured on this build, so your account works only in this browser.
           </p>
+        )}
+        {session?.provider !== 'guest' && (
+          <Button className="mt-4 mr-2" variant="ghost" to="/welcome?next=%2Fapp%2Fsettings">
+            Edit your details
+          </Button>
         )}
         <Button
           className="mt-4"

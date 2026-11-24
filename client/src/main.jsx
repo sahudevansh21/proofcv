@@ -5,12 +5,14 @@ import './index.css';
 import { ToastProvider } from './components/ui/index.js';
 import PublicLayout from './components/layout/PublicLayout.jsx';
 import AppLayout from './components/layout/AppLayout.jsx';
-import Landing from './routes/Landing.jsx';
+import Home from './routes/Home.jsx';
 import ErrorPage from './routes/ErrorPage.jsx';
 import Root from './routes/Root.jsx';
 
 // Route-level code splitting: only the landing page ships in the first bundle.
 const Login = lazy(() => import('./routes/Login.jsx'));
+const Welcome = lazy(() => import('./routes/Welcome.jsx'));
+const Gallery = lazy(() => import('./routes/Gallery.jsx'));
 const Dashboard = lazy(() => import('./routes/Dashboard.jsx'));
 const Audit = lazy(() => import('./routes/Audit.jsx'));
 const HistoryPage = lazy(() => import('./routes/History.jsx'));
@@ -23,7 +25,9 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
-      { path: '/', element: <Landing /> },
+      { path: '/', element: <Home /> },
+      { path: '/gallery', element: <Gallery /> },
+      { path: '/welcome', element: <Welcome /> },
       {
         element: <PublicLayout />,
         children: [

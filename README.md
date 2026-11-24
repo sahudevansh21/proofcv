@@ -18,8 +18,9 @@ Built for **MLH HackDay: The Battle Royale** (GDG on Campus AITR). Problem state
 
 ## Features
 
-- **Landing:** a walkable 3D gallery (three.js, lazy-loaded) where sample resumes and job postings hang as prints drawn on canvas. Click to look closer, open a print page with live coverage and buckets, save to "Your audits", or switch to the list view. Falls back to the list if WebGL is unavailable; honours reduced motion.
-- **Auth:** log in / sign up with validation, "Continue with Google" (Firebase, behind env flag), and a prominent **Continue as guest** with every feature.
+- **Home** (`/`): hero, real before/after bullet, three buckets with live coverage, how it works, honest-by-design, FAQ.
+- **Gallery** (`/gallery`): a walkable 3D gallery (three.js, lazy-loaded) where sample resumes and job postings hang as prints drawn on canvas. Click to look closer, open a print page with live coverage and buckets, save to "Your audits", or switch to the list view. Falls back to the list if WebGL is unavailable; honours reduced motion.
+- **Auth:** centred log in / sign up card with Google, LinkedIn (OIDC) and GitHub (Firebase, behind env flag), forgot password, a one-time "about you" step (year, branch, target role preselects a posting), and a prominent **Continue as guest** with every feature.
   Without Firebase keys, accounts are local to the device and Google falls back to a demo profile. `/app/*` routes redirect to `/login?next=…`.
 - **Audit workspace:** resume and JD side by side (tabs on mobile), role presets, 4 samples, live debounced re-scoring, inline highlights
   (green matched, amber worded differently, red weak/not found, yellow placeholders) with hover tips, coverage ring, bucket tabs,

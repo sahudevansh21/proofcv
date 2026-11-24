@@ -30,7 +30,6 @@ const FIREBASE_MESSAGES = {
   'auth/user-not-found': 'No account with that email. Sign up instead?',
   'auth/email-already-in-use': 'An account with that email already exists. Log in instead.',
   'auth/weak-password': 'Use at least 8 characters.',
-  'auth/popup-closed-by-user': 'Google sign-in was closed before it finished.',
   'auth/network-request-failed': 'No connection. You can still continue as a guest.',
   'auth/too-many-requests': 'Too many attempts. Wait a minute and try again.',
 };
@@ -59,20 +58,54 @@ export function continueAsGuest() {
   return GUEST;
 }
 
-/** Google sign-in via Firebase. Without Firebase keys, opens a local demo profile so the demo never breaks. */
-export async function continueWithGoogle() {
+export const PROVIDERS = {
+  google: { label: 'Google', firebase: (a) => new a.GoogleAuthProvider() },
+  linkedin: { label: 'LinkedIn', firebase: (a) => new a.OAuthProvider('oidc.linkedin') },
+  github: { label: 'GitHub', firebase: (a) => new a.GithubAuthProvider() },
+};
+
+/**
+ * Social sign-in via Firebase (Google, LinkedIn over OIDC, GitHub).
+ * Without Firebase keys, opens a local demo profile for that provider so the demo never breaks.
+ */
+export async function continueWithProvider(id) {
+  const provider = PROVIDERS[id];
+  if (!provider) throw new AuthError('Unknown sign-in option.');
   const fb = await loadFirebase();
   if (!fb) {
-    useStore.getState().setSession(DEMO);
-    return { session: DEMO, demo: true };
+    const session = { ...DEMO, id: `demo_${id}`, provider: 'demo', via: provider.label };
+    useStore.getState().setSession(session);
+    return { session, demo: true };
   }
   try {
-    const cred = await fb.auth.signInWithPopup(fb.client, new fb.auth.GoogleAuthProvider());
-    const session = fromFirebaseUser(cred.user);
+    const cred = await fb.auth.signInWithPopup(fb.client, provider.firebase(fb.auth));
+    const session = { ...fromFirebaseUser(cred.user), via: provider.label };
     useStore.getState().setSession(session);
     return { session, demo: false };
   } catch (err) {
+    if (err?.code === 'auth/operation-not-allowed' || err?.code === 'auth/invalid-provider-id') {
+      throw new AuthError(`${provider.label} sign-in isn't enabled for this project yet. Use email or continue as a guest.`);
+    }
+    if (err?.code === 'auth/popup-closed-by-user') throw new AuthError(`${provider.label} sign-in was closed before it finished.`);
     throw friendly(err);
+  }
+}
+
+/** Sends a reset link with Firebase. Local accounts live only in this browser, so they cannot be reset by email. */
+export async function resetPassword(email) {
+  const cleanEmail = email.trim().toLowerCase();
+  if (!EMAIL_RE.test(cleanEmail)) throw new AuthError('Enter a valid email, like you@college.edu.');
+  const fb = await loadFirebase();
+  if (!fb) {
+    throw new AuthError(
+      "Accounts on this build are stored only in this browser, so there's no email to reset from. Create a new account or continue as a guest.",
+    );
+  }
+  try {
+    await fb.auth.sendPasswordResetEmail(fb.client, cleanEmail);
+  } catch (err) {
+    // Don't reveal whether an account exists for this email.
+    if (err?.code !== 'auth/user-not-found') throw friendly(err);
   }
 }
 

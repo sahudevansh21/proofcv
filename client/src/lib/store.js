@@ -22,8 +22,11 @@ export const useStore = create(
       session: null, // { id, name, email, provider: 'guest' | 'local' | 'demo' | 'firebase' }
       localAccounts: {}, // email -> { id, name, email, salt, passwordHash, createdAt }
       data: {}, // userId -> { resumes, audits, draft }
+      profiles: {}, // userId -> { name, year, branch, targetRole, skipped, updatedAt }
 
       setTheme: (theme) => set({ theme }),
+      setProfile: (userId, profile) =>
+        set((s) => ({ profiles: { ...s.profiles, [userId]: { ...s.profiles[userId], ...profile, updatedAt: new Date().toISOString() } } })),
       setSession: (session) => set({ session }),
       clearSession: () => set({ session: null }),
       addLocalAccount: (account) => set((s) => ({ localAccounts: { ...s.localAccounts, [account.email]: account } })),
@@ -88,16 +91,18 @@ export const useStore = create(
           delete data[session.id];
           const localAccounts = { ...s.localAccounts };
           if (session.provider === 'local' && session.email) delete localAccounts[session.email];
-          return { data, localAccounts, session: null };
+          const profiles = { ...s.profiles };
+          delete profiles[session.id];
+          return { data, localAccounts, profiles, session: null };
         }),
 
       exportMyData: () => {
-        const { session, data } = get();
+        const { session, data, profiles } = get();
         if (!session) return null;
         return {
           exportedAt: new Date().toISOString(),
           app: 'ProofCV',
-          profile: { name: session.name, email: session.email ?? null, provider: session.provider },
+          profile: { name: session.name, email: session.email ?? null, provider: session.provider, ...(profiles[session.id] ?? {}) },
           ...(data[session.id] ?? EMPTY_DATA),
         };
       },

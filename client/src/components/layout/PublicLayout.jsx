@@ -26,7 +26,7 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
-              <a href="/?view=list" className="hover:text-fg">
+              <a href="/gallery?view=list" className="hover:text-fg">
                 Samples
               </a>
             </li>
