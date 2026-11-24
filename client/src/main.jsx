@@ -1,4 +1,4 @@
-import { StrictMode, lazy } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import './index.css';
@@ -9,19 +9,20 @@ import Home from './routes/Home.jsx';
 import ErrorPage from './routes/ErrorPage.jsx';
 import Root from './routes/Root.jsx';
 import { watchForNewBuild } from './lib/freshBuild.js';
+import { lazyRoute } from './lib/lazyRoute.js';
 
 // Route-level code splitting: only the landing page ships in the first bundle.
-const Login = lazy(() => import('./routes/Login.jsx'));
-const Welcome = lazy(() => import('./routes/Welcome.jsx'));
-const Gallery = lazy(() => import('./routes/Gallery.jsx'));
-const Dashboard = lazy(() => import('./routes/Dashboard.jsx'));
-const Audit = lazy(() => import('./routes/Audit.jsx'));
-const Agent = lazy(() => import('./routes/Agent.jsx'));
-const Templates = lazy(() => import('./routes/Templates.jsx'));
-const HistoryPage = lazy(() => import('./routes/History.jsx'));
-const SettingsPage = lazy(() => import('./routes/Settings.jsx'));
-const InfoPage = lazy(() => import('./routes/InfoPage.jsx'));
-const NotFound = lazy(() => import('./routes/NotFound.jsx'));
+const Login = lazyRoute(() => import('./routes/Login.jsx'));
+const Welcome = lazyRoute(() => import('./routes/Welcome.jsx'));
+const Gallery = lazyRoute(() => import('./routes/Gallery.jsx'));
+const Dashboard = lazyRoute(() => import('./routes/Dashboard.jsx'));
+const Audit = lazyRoute(() => import('./routes/Audit.jsx'));
+const Agent = lazyRoute(() => import('./routes/Agent.jsx'));
+const Templates = lazyRoute(() => import('./routes/Templates.jsx'));
+const HistoryPage = lazyRoute(() => import('./routes/History.jsx'));
+const SettingsPage = lazyRoute(() => import('./routes/Settings.jsx'));
+const InfoPage = lazyRoute(() => import('./routes/InfoPage.jsx'));
+const NotFound = lazyRoute(() => import('./routes/NotFound.jsx'));
 
 const router = createBrowserRouter([
   {
