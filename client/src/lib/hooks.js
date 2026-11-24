@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { useStore } from './store.js';
 
 const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -39,20 +38,6 @@ export function useCountUp(target, duration = 600) {
   return reduce ? target : value;
 }
 
-/** Keeps the <html> "dark" class in sync with the theme preference (and the OS when set to "system"). */
-export function useThemeSync() {
-  const theme = useStore((s) => s.theme);
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const apply = () => {
-      const dark = theme === 'dark' || (theme === 'system' && mq.matches);
-      document.documentElement.classList.toggle('dark', dark);
-    };
-    apply();
-    mq.addEventListener('change', apply);
-    return () => mq.removeEventListener('change', apply);
-  }, [theme]);
-}
 
 export function useDocumentTitle(title) {
   useEffect(() => {

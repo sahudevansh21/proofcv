@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { NavLink, Navigate, Outlet, useLocation, useNavigate } from 'react-router';
 import { ChevronDown, FileSearch, History, LayoutDashboard, LogOut, Settings, ShieldCheck, Sparkles, User } from 'lucide-react';
-import { Logo, ThemeToggle } from './Brand.jsx';
+import { Logo } from './Brand.jsx';
 import { useStore } from '../../lib/store.js';
 import { logOut } from '../../lib/auth.js';
 import { useToast } from '../ui/index.js';
@@ -121,15 +121,15 @@ export default function AppLayout() {
   return (
     <RequireSession>
       <div className="flex min-h-dvh flex-col">
-        <header className="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur-md no-print">
+        <header className="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur-md no-print">
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:rounded-lg focus:bg-surface focus:px-3 focus:py-2"
           >
             Skip to content
           </a>
-          <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-4 px-4 sm:px-6">
-            <Logo to="/app" />
+          <div className="mx-auto flex h-[72px] max-w-[1440px] items-center gap-4 px-5 sm:px-8">
+            <Logo to="/" className="text-[24px]" />
             <nav aria-label="App" className="ml-4 hidden items-center gap-1 md:flex">
               {LINKS.map((l) => (
                 <NavLink
@@ -137,24 +137,23 @@ export default function AppLayout() {
                   to={l.to}
                   end={l.end}
                   className={({ isActive }) =>
-                    `flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isActive ? 'bg-primary-soft text-primary-soft-fg' : 'text-fg-muted hover:bg-surface-2 hover:text-fg'}`
+                    `flex h-9 items-center gap-2 rounded-full px-4 font-mono text-[11.5px] uppercase tracking-[0.12em] transition-colors ${isActive ? 'bg-chip-on text-[#3a3550]' : 'text-fg-muted hover:bg-band hover:text-fg'}`
                   }
                 >
-                  <l.icon aria-hidden className="h-4 w-4" />
+                  <l.icon aria-hidden className="h-[15px] w-[15px]" strokeWidth={1.6} />
                   {l.label}
                 </NavLink>
               ))}
             </nav>
             <div className="ml-auto flex items-center gap-1.5">
-              <span className="hidden items-center gap-1.5 rounded-full bg-success-soft px-3 py-1 text-xs font-medium text-success-fg lg:inline-flex">
-                <ShieldCheck aria-hidden className="h-3.5 w-3.5" /> Your resume never leaves your browser
+              <span className="hidden items-center gap-1.5 rounded-full border border-line-strong px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-fg-muted xl:inline-flex">
+                <ShieldCheck aria-hidden className="h-3.5 w-3.5" /> Audits run in your browser
               </span>
-              <ThemeToggle />
               <ProfileMenu />
             </div>
           </div>
         </header>
-        <main id="main" className="mx-auto w-full max-w-[1440px] flex-1 px-4 pb-24 pt-6 sm:px-6 md:pb-10">
+        <main id="main" className="mx-auto w-full max-w-[1440px] flex-1 px-5 pb-24 pt-8 sm:px-8 md:pb-12">
           <Suspense fallback={<PageSkeleton />}>
             <Outlet />
           </Suspense>

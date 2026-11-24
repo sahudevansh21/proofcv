@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Download, LogOut, ShieldAlert, Trash2 } from 'lucide-react';
 import { Button, Card, Input, Modal, Tabs, useToast } from '../components/ui/index.js';
-import { THEMES } from '../components/layout/Brand.jsx';
 import { logOut } from '../lib/auth.js';
 import { FIREBASE_ENABLED } from '../lib/config.js';
 import { downloadJson } from '../lib/clipboard.js';
@@ -20,8 +19,6 @@ export default function SettingsPage() {
   useDocumentTitle('Settings');
   const session = useStore((s) => s.session);
   const profile = useStore((s) => (s.session ? s.profiles?.[s.session.id] : null));
-  const theme = useStore((s) => s.theme);
-  const setTheme = useStore((s) => s.setTheme);
   const exportMyData = useStore((s) => s.exportMyData);
   const deleteAllMyData = useStore((s) => s.deleteAllMyData);
   const { resumes, audits } = useUserData();
@@ -49,17 +46,6 @@ export default function SettingsPage() {
         <p className="text-fg-muted">Theme, your data, and your account.</p>
       </div>
 
-      <Card>
-        <h2 className="font-semibold text-fg">Appearance</h2>
-        <p className="mt-1 text-sm text-fg-muted">System follows your device&apos;s light or dark mode.</p>
-        <Tabs
-          className="mt-3"
-          label="Theme"
-          value={theme}
-          onChange={setTheme}
-          tabs={THEMES.map((t) => ({ value: t.value, label: t.label, icon: t.icon }))}
-        />
-      </Card>
 
       <Card>
         <h2 className="font-semibold text-fg">Account</h2>

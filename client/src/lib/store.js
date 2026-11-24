@@ -18,13 +18,11 @@ function patchData(state, userId, fn) {
 export const useStore = create(
   persist(
     (set, get) => ({
-      theme: 'system',
       session: null, // { id, name, email, provider: 'guest' | 'local' | 'demo' | 'firebase' }
       localAccounts: {}, // email -> { id, name, email, salt, passwordHash, createdAt }
       data: {}, // userId -> { resumes, audits, draft }
       profiles: {}, // userId -> { name, year, branch, targetRole, skipped, updatedAt }
 
-      setTheme: (theme) => set({ theme }),
       setProfile: (userId, profile) =>
         set((s) => ({ profiles: { ...s.profiles, [userId]: { ...s.profiles[userId], ...profile, updatedAt: new Date().toISOString() } } })),
       setSession: (session) => set({ session }),

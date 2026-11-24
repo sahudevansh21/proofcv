@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router';
 import { ArrowRight, FileText, History, Menu, UserRound, X } from 'lucide-react';
-import { Logo, ThemeToggle } from './Brand.jsx';
+import { Logo } from './Brand.jsx';
 import { useStore, useUserData } from '../../lib/store.js';
 import { formatDate } from '../../lib/hooks.js';
 
@@ -120,7 +120,6 @@ export function ZNav({ overlay = false, onBrandClick, drawerOpen, onDrawerChange
           ))}
         </ul>
         <div className="flex items-center gap-0.5">
-          {!overlay && <ThemeToggle />}
           <Link to={session ? '/app' : '/login'} className={iconBtn} aria-label={session ? 'Open your dashboard' : 'Log in'}>
             <UserRound className="h-[19px] w-[19px]" strokeWidth={1.6} />
           </Link>

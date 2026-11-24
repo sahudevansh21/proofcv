@@ -8,6 +8,7 @@ import { ITEMS } from '../features/gallery/items.js';
 import { printUrl } from '../features/gallery/artwork.js';
 import { loadSample } from '../features/samples/samples.js';
 import { LiveFeed } from '../features/home/LiveFeed.jsx';
+import { ResumeCompare } from '../features/home/ResumeCompare.jsx';
 import { useStore } from '../lib/store.js';
 import { useDocumentTitle } from '../lib/hooks.js';
 
@@ -142,7 +143,7 @@ export default function Home() {
                 </button>
               </div>
               <p className="mt-4 font-serif text-[15px] italic text-fg-subtle">
-                No sign-up needed for the sample. Your resume never leaves your browser.
+                No sign-up needed for the sample. Audits run entirely in your browser.
               </p>
             </div>
 
@@ -171,6 +172,22 @@ export default function Home() {
                 Walk the gallery →
               </span>
             </Link>
+          </div>
+        </section>
+
+        {/* Normal vs ProofCV */}
+        <section className="border-t border-line px-5 py-20 sm:px-8" aria-labelledby="compare-title">
+          <div className="mx-auto max-w-[1100px]">
+            <p className={`${mono} text-fg-muted`}>The difference</p>
+            <h2 id="compare-title" className="mt-2 font-display text-[clamp(36px,5vw,60px)] font-semibold uppercase leading-none">
+              Normal resume vs ProofCV
+            </h2>
+            <p className="mt-4 max-w-[62ch] font-serif text-[19px] text-fg-muted">
+              Drag the handle. Same student, same facts. Stronger verbs and clear gaps for real numbers, with nothing made up.
+            </p>
+            <div className="mt-10">
+              <ResumeCompare />
+            </div>
           </div>
         </section>
 

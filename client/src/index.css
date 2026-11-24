@@ -5,8 +5,6 @@
 @import '@fontsource/dm-mono/latin-400.css';
 @import '@fontsource/dm-mono/latin-500.css';
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 /* ---------- Design tokens (Zestwell palette: warm cream, butter, blush, plum ink) ---------- */
 :root,
 .light-scope {
@@ -57,40 +55,6 @@
   color: var(--fg);
 }
 
-.dark {
-  --bg: #1f1c29;
-  --surface: #27243a;
-  --surface-2: #302c45;
-  --line: rgba(255, 249, 236, 0.12);
-  --line-strong: rgba(255, 249, 236, 0.3);
-  --fg: #fff4e0;
-  --fg-muted: rgba(255, 244, 224, 0.78);
-  --fg-subtle: rgba(255, 244, 224, 0.62);
-
-  --mat: #3a3550;
-  --band: #27243a;
-  --drawer: #2d2838;
-
-  --primary: #fceb93;
-  --primary-hover: #fff1b0;
-  --primary-fg: #2a2640;
-  --primary-soft: #3d3820;
-  --primary-soft-fg: #fceb93;
-  --success: #a7d49f;
-  --success-soft: #24331f;
-  --success-fg: #c3e5bc;
-  --warning: #fbe46d;
-  --warning-soft: #3d3514;
-  --warning-fg: #fbe9a0;
-  --danger: #f2a7a3;
-  --danger-soft: #3d1f22;
-  --danger-fg: #f7c3c0;
-
-  --ring: #fceb93;
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-md: 0 6px 24px rgb(0 0 0 / 0.5);
-  color-scheme: dark;
-}
 
 /* Scaling units from the Zestwell frame (1440 x 900). */
 :root {
@@ -246,11 +210,6 @@ mark {
   font-weight: 600;
   outline: 1px dashed #8a6a00;
 }
-.dark .hl-placeholder {
-  background: #5a4d10;
-  color: #fceb93;
-  outline-color: #fbe46d;
-}
 
 /* ---------- Print report ---------- */
 @media print {
@@ -331,4 +290,30 @@ mark {
     animation: none;
     transition: none;
   }
+}
+
+/* App section titles share the landing page's display type. Base layer so utilities still win. */
+@layer base {
+  h2 {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: 500;
+  }
+}
+
+/* Arc list: titles glide along the arc; the preview fades in on change. */
+.arc-item {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), top 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+.arc-preview {
+  animation: arc-preview-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes arc-preview-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .arc-item { transition: none; }
+  .arc-preview { animation: none; }
 }

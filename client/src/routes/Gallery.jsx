@@ -6,6 +6,7 @@ import { ZNav } from '../components/layout/ZNav.jsx';
 import { useToast } from '../components/ui/index.js';
 import { ITEMS } from '../features/gallery/items.js';
 import { printUrl } from '../features/gallery/artwork.js';
+import { ArcList } from '../features/gallery/ArcList.jsx';
 import { ensureSession, loadSample } from '../features/samples/samples.js';
 import { toAuditSnapshot } from '../features/audit/useAudit.js';
 import { useStore } from '../lib/store.js';
@@ -360,8 +361,8 @@ function PrintPage({ index, fromRect, onClose, onOpen, onSaved }) {
               tool. It is a self-audit, not a guarantee of interviews.
             </Accordion>
             <Accordion title="Privacy">
-              Your resume never leaves your browser. Analysis runs on this device, there is no endpoint that accepts resume text, and saved
-              audits stay in this browser’s storage until you delete them in Settings.
+              Audits never leave your browser: analysis runs on this device and no endpoint accepts audit text. Saved audits stay in this browser’s
+              storage until you delete them in Settings. Only the optional AI resume builder sends text to a server, and it asks first.
             </Accordion>
           </div>
         </div>
@@ -396,26 +397,12 @@ function ListView({ onOpen }) {
     <section className="light-scope min-h-dvh bg-[#fff9ec] px-5 pb-20 pt-[112px] text-[#3a3550] sm:px-8" aria-label="All samples">
       <h1 className="font-display text-[clamp(40px,6vw,72px)] font-semibold uppercase leading-none">ProofCV — all samples</h1>
       <p className="mt-3 max-w-[60ch] font-serif text-[19px] italic">
-        Four fictional student resumes, four internship postings, and a frame for yours.
+        Pick a resume. Four fictional student resumes, four internship postings, and a frame for yours.
       </p>
-      <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 xl:grid-cols-5">
-        {ITEMS.map((item, i) => (
-          <li key={item.key}>
-            <button type="button" onClick={() => onOpen(i)} className="group block w-full text-left">
-              <span className="block bg-[#f6ead8] p-4 sm:p-6">
-                <img
-                  src={printUrl(item)}
-                  alt=""
-                  className="aspect-[567/763] w-full transition-transform duration-300 group-hover:-translate-y-1 motion-reduce:transition-none"
-                />
-              </span>
-              <span className="mt-3 block font-serif text-[20px] font-medium leading-tight">{item.title}</span>
-              <span className="block font-serif text-[15px] italic opacity-80">{item.subtitle}</span>
-              <span className={`${mono} mt-1 block opacity-65`}>{item.meta}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
+      <div className="mt-10">
+        <ArcList items={ITEMS} getImage={printUrl} onOpen={onOpen} label="Sample resumes" />
+      </div>
+      <p className={`${mono} mt-8 opacity-60`}>Scroll, swipe or use the arrow keys to turn the list. Enter opens.</p>
     </section>
   );
 }

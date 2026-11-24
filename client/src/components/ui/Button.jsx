@@ -3,11 +3,11 @@ import { Link } from 'react-router';
 import { LoaderCircle } from 'lucide-react';
 
 const VARIANTS = {
-  primary: 'bg-primary text-primary-fg hover:bg-primary-hover shadow-sm',
-  secondary: 'bg-surface text-fg border border-line hover:bg-surface-2 shadow-sm',
-  soft: 'bg-primary-soft text-primary-soft-fg hover:brightness-95',
-  ghost: 'text-fg-muted hover:bg-surface-2 hover:text-fg',
-  danger: 'bg-danger text-white hover:brightness-110 dark:text-[#2a0a08]',
+  primary: 'bg-primary text-primary-fg hover:bg-primary-hover',
+  secondary: 'bg-transparent text-fg border border-line-strong hover:border-fg hover:bg-band',
+  soft: 'bg-chip-on text-[#3a3550] hover:bg-[#fbe46d]',
+  ghost: 'text-fg-muted hover:bg-band hover:text-fg',
+  danger: 'bg-danger text-white hover:brightness-110',
   'danger-ghost': 'text-danger-fg hover:bg-danger-soft',
 };
 const SIZES = {
