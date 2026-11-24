@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { ArrowRight, CircleAlert, FileSearch, LoaderCircle, RotateCcw, Save, SkipForward, Sparkles } from 'lucide-react';
+import { ArrowRight, CircleAlert, FileSearch, LayoutTemplate, LoaderCircle, RotateCcw, Save, SkipForward, Sparkles } from 'lucide-react';
 import { PRESETS, countPlaceholders } from '@proofcv/shared';
 import { Button, Card, useToast } from '../components/ui/index.js';
 import { CopyButton } from '../features/audit/CopyButton.jsx';
@@ -251,6 +251,16 @@ export default function Agent() {
     });
     navigate('/app/audit');
   };
+  const openInTemplates = () => {
+    useStore.getState().updateDraft({
+      resume: text,
+      jd: preset?.jd ?? state.jd,
+      presetId: preset?.id ?? '',
+      resumeId: null,
+      title: `${state.resume.name} (AI draft)`,
+    });
+    navigate('/app/templates?source=draft');
+  };
   const save = () => {
     useStore.getState().saveResume({ title: `${state.resume.name} – ${preset?.role ?? state.role}`, text });
     toast('Saved to your resumes on this device.', { tone: 'success' });
@@ -457,6 +467,9 @@ export default function Agent() {
               <div className="grid gap-2">
                 <Button icon={FileSearch} onClick={openInAudit}>
                   Audit this draft
+                </Button>
+                <Button variant="secondary" icon={LayoutTemplate} onClick={openInTemplates}>
+                  Re-create in a template
                 </Button>
                 <Button variant="secondary" icon={Save} onClick={save}>
                   Save to my resumes

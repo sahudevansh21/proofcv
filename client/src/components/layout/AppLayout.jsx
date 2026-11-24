@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { NavLink, Navigate, Outlet, useLocation, useNavigate } from 'react-router';
-import { ChevronDown, FileSearch, History, LayoutDashboard, LogOut, Settings, ShieldCheck, Sparkles, User } from 'lucide-react';
+import { ChevronDown, FileSearch, History, LayoutDashboard, LayoutTemplate, LogOut, Settings, ShieldCheck, Sparkles, User } from 'lucide-react';
 import { Logo } from './Brand.jsx';
 import { useStore } from '../../lib/store.js';
 import { logOut } from '../../lib/auth.js';
@@ -11,6 +11,7 @@ const LINKS = [
   { to: '/app', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/app/audit', label: 'Audit', icon: FileSearch },
   { to: '/app/agent', label: 'AI Builder', icon: Sparkles },
+  { to: '/app/templates', label: 'Templates', icon: LayoutTemplate },
   { to: '/app/history', label: 'History', icon: History },
   { to: '/app/settings', label: 'Settings', icon: Settings },
 ];
@@ -137,7 +138,7 @@ export default function AppLayout() {
                   to={l.to}
                   end={l.end}
                   className={({ isActive }) =>
-                    `flex h-9 items-center gap-2 rounded-full px-4 font-mono text-[11.5px] uppercase tracking-[0.12em] transition-colors ${isActive ? 'bg-chip-on text-[#3a3550]' : 'text-fg-muted hover:bg-band hover:text-fg'}`
+                    `flex h-9 items-center gap-2 whitespace-nowrap rounded-full px-3.5 font-mono text-[11.5px] uppercase tracking-[0.12em] transition-colors ${isActive ? 'bg-chip-on text-[#3a3550]' : 'text-fg-muted hover:bg-band hover:text-fg'}`
                   }
                 >
                   <l.icon aria-hidden className="h-[15px] w-[15px]" strokeWidth={1.6} />
@@ -146,7 +147,7 @@ export default function AppLayout() {
               ))}
             </nav>
             <div className="ml-auto flex items-center gap-1.5">
-              <span className="hidden items-center gap-1.5 rounded-full border border-line-strong px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-fg-muted xl:inline-flex">
+              <span className="hidden items-center gap-1.5 rounded-full border border-line-strong px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-fg-muted 2xl:inline-flex">
                 <ShieldCheck aria-hidden className="h-3.5 w-3.5" /> Audits run in your browser
               </span>
               <ProfileMenu />
@@ -160,7 +161,7 @@ export default function AppLayout() {
         </main>
         <nav
           aria-label="App"
-          className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-line bg-surface/95 backdrop-blur md:hidden no-print"
+          className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-line bg-surface/95 backdrop-blur md:hidden no-print"
         >
           {LINKS.map((l) => (
             <NavLink

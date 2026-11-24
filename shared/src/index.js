@@ -3,3 +3,5 @@ export { rewriteBullet, analyzeBullet, extractBullets, detectSections, gerundToP
 export { SKILLS, WEAK_PHRASES, STRONG_VERBS } from './skills.js';
 export { findTerm, findAnyTerm, termRegex } from './match.js';
 export { PARODY_NOTICE, PRESETS, SAMPLE_RESUME, SAMPLES } from './presets.js';
+export { parseResume, splitDate } from './resumeModel.js';
+export { TEMPLATES, resumeToLatex, escapeTex, texText } from './latex.js';

@@ -90,3 +90,9 @@ The app never needs the API in production; presets ship in the bundle.
 ## Sample data
 
 The 30 samples use celebrity names for fun. Every resume is fictional and is not about, written by, or endorsed by the person named; the UI shows this notice wherever samples appear.
+
+## Templates (LaTeX)
+
+`/app/templates` re-creates any resume (your draft, a saved resume, or a sample) in one of six original designs: Classic, Compact, Navy Sidebar, Accent Columns, Margin Notes and Timeline. It previews in the browser and exports a ready-to-compile `.tex` (copy, download, or open in Overleaf; Overleaf only receives the file when you click). The parser in `shared/src/resumeModel.js` never rewrites text, and `[N]` placeholders print in red until filled.
+
+`npm run check:latex` compiles every template against all 30 samples with [Tectonic](https://tectonic-typesetting.github.io/) (`brew install tectonic`).

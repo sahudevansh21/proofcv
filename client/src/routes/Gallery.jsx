@@ -160,6 +160,16 @@ function ResumeDetails({ item, presetId, setPresetId, onSaved }) {
         >
           Audit this resume <ArrowRight className="h-4 w-4" />
         </button>
+        <button
+          type="button"
+          onClick={() => {
+            ensureSession();
+            navigate(`/app/templates?source=sample:${item.sampleId}`);
+          }}
+          className="flex h-[54px] items-center justify-center gap-2 border border-[#3a3550] bg-[#fceb93] font-display text-[17px] font-medium uppercase tracking-[0.12em] hover:bg-[#fbe46d] sm:col-span-2"
+        >
+          Re-create in a LaTeX template <ArrowRight className="h-4 w-4" />
+        </button>
       </div>
 
       <div className="mt-10">

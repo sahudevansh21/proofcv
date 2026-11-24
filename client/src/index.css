@@ -227,6 +227,10 @@ mark {
   .print-break {
     break-inside: avoid;
   }
+  .tpl-zoom {
+    zoom: 0.94 !important;
+    box-shadow: none !important;
+  }
   a {
     color: inherit;
     text-decoration: none;

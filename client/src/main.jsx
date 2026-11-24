@@ -17,6 +17,7 @@ const Gallery = lazy(() => import('./routes/Gallery.jsx'));
 const Dashboard = lazy(() => import('./routes/Dashboard.jsx'));
 const Audit = lazy(() => import('./routes/Audit.jsx'));
 const Agent = lazy(() => import('./routes/Agent.jsx'));
+const Templates = lazy(() => import('./routes/Templates.jsx'));
 const HistoryPage = lazy(() => import('./routes/History.jsx'));
 const SettingsPage = lazy(() => import('./routes/Settings.jsx'));
 const InfoPage = lazy(() => import('./routes/InfoPage.jsx'));
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
           { index: true, element: <Dashboard /> },
           { path: 'audit', element: <Audit /> },
           { path: 'agent', element: <Agent /> },
+          { path: 'templates', element: <Templates /> },
           { path: 'history', element: <HistoryPage /> },
           { path: 'settings', element: <SettingsPage /> },
         ],

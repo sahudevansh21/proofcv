@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { BookmarkPlus, FileText, FileUp, Printer, RotateCcw, ShieldCheck, Sparkles, Target } from 'lucide-react';
+import { BookmarkPlus, FileText, FileUp, LayoutTemplate, Printer, RotateCcw, ShieldCheck, Sparkles, Target } from 'lucide-react';
+import { useNavigate } from 'react-router';
 import { Button, EmptyState, Input, Modal, Select, Tabs, useToast } from '../components/ui/index.js';
 import { EditorPane } from '../features/audit/EditorPane.jsx';
 import { CoveragePanel, FixList, FormatChecklist, SkillsPanel } from '../features/audit/ResultsPanels.jsx';
@@ -25,6 +26,7 @@ const JD_LEGEND = [
 ];
 
 export default function Audit() {
+  const navigate = useNavigate();
   useDocumentTitle('Audit');
   const { draft, result, pending, analysedResume, analysedJd } = useAudit();
   const updateDraft = useStore((s) => s.updateDraft);
@@ -237,6 +239,9 @@ export default function Audit() {
               </optgroup>
             ))}
           </Select>
+          <Button variant="secondary" icon={LayoutTemplate} onClick={() => navigate('/app/templates?source=draft')} disabled={!draft.resume.trim()}>
+            Templates
+          </Button>
           <Button variant="secondary" icon={Printer} onClick={print} disabled={!hasInput}>
             Print
           </Button>
