@@ -2,9 +2,9 @@
 
 **Live app:** https://proofcv-red.vercel.app
 
-**Demo video (60 s):** [docs/proofcv-demo.mp4](docs/proofcv-demo.mp4)
+**Demo video (60 s):** [proofcv-red.vercel.app/demo.mp4](https://proofcv-red.vercel.app/demo.mp4)
 
-[![ProofCV demo video](docs/proofcv-demo-poster.jpg)](docs/proofcv-demo.mp4)
+[![ProofCV demo video](docs/proofcv-demo-poster.jpg)](https://proofcv-red.vercel.app/demo.mp4)
 
 A resume self-audit for first- and second-year students applying for technical internships. Paste a resume and a job
 description (JD), and ProofCV shows which of the posting's skills you already cover, which you may have under other
