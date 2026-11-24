@@ -10,6 +10,7 @@ import ErrorPage from './routes/ErrorPage.jsx';
 import Root from './routes/Root.jsx';
 import { watchForNewBuild } from './lib/freshBuild.js';
 import { lazyRoute } from './lib/lazyRoute.js';
+import { initSmoothScroll } from './lib/smoothScroll.js';
 
 // Route-level code splitting: only the landing page ships in the first bundle.
 const Login = lazyRoute(() => import('./routes/Login.jsx'));
@@ -61,6 +62,7 @@ const router = createBrowserRouter([
 ]);
 
 watchForNewBuild();
+initSmoothScroll();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

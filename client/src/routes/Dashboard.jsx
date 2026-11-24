@@ -85,12 +85,12 @@ export default function Dashboard() {
           Quick start
         </h2>
         <div className="grid gap-4 md:grid-cols-3">
-          <Card as="button" type="button" onClick={quick.paste} className="text-left transition hover:shadow-[var(--shadow-pop)]">
+          <Card as="button" type="button" onClick={quick.paste} className="text-left transition duration-300 ease-out hover:shadow-[var(--shadow-pop)] motion-safe:hover:-translate-y-1">
             <ClipboardPaste aria-hidden className="h-6 w-6 text-primary" />
             <p className="mt-3 font-semibold text-fg">Paste your resume</p>
             <p className="mt-1 text-sm text-fg-muted">Start a fresh audit with your own text and posting.</p>
           </Card>
-          <Card as="button" type="button" onClick={quick.sample} className="text-left transition hover:shadow-[var(--shadow-pop)]">
+          <Card as="button" type="button" onClick={quick.sample} className="text-left transition duration-300 ease-out hover:shadow-[var(--shadow-pop)] motion-safe:hover:-translate-y-1">
             <Sparkles aria-hidden className="h-6 w-6 text-g-yellow" />
             <p className="mt-3 font-semibold text-fg">Try a sample</p>
             <p className="mt-1 text-sm text-fg-muted">

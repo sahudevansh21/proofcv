@@ -17,7 +17,7 @@ const SIZES = {
 };
 
 export const buttonClass = ({ variant = 'primary', size = 'md', className = '' } = {}) =>
-  `inline-flex items-center justify-center font-medium whitespace-nowrap select-none transition-[background,color,box-shadow,filter] duration-150 ease-out disabled:pointer-events-none disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
+  `inline-flex items-center justify-center font-medium whitespace-nowrap select-none transition-[background,color,box-shadow,filter,translate] duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 disabled:pointer-events-none disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
 
 /** Button, or a router Link when `to` is given. */
 export const Button = forwardRef(function Button(
