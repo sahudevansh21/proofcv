@@ -8,6 +8,7 @@ import AppLayout from './components/layout/AppLayout.jsx';
 import Home from './routes/Home.jsx';
 import ErrorPage from './routes/ErrorPage.jsx';
 import Root from './routes/Root.jsx';
+import { watchForNewBuild } from './lib/freshBuild.js';
 
 // Route-level code splitting: only the landing page ships in the first bundle.
 const Login = lazy(() => import('./routes/Login.jsx'));
@@ -55,6 +56,8 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+watchForNewBuild();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
