@@ -9,12 +9,12 @@ Built for **MLH HackDay: The Battle Royale** (GDG on Campus AITR). Problem state
 
 ## Non-negotiables (enforced in code and tests)
 
-1. **Privacy.** Analysis runs in the browser. The server has no endpoint that accepts resume text. Saved data lives in `localStorage`.
+1. **Privacy.** Audits run in the browser; no endpoint accepts audit text. Saved data lives in `localStorage`. The one exception is the opt-in **AI resume builder**, which sends interview answers to Anthropic's Claude API after an explicit consent checkbox, and is never logged.
 2. **No invented numbers.** The rewriter only changes verbs and filler; a test checks every sample rewrite contains no new digits.
 3. **"JD keyword coverage"**, never "ATS score". Two numbers: *Coverage now* (exact matches) and *After rewording true skills*.
 4. **Never suggest claiming a gap.** Not-found skills say: *"Don't claim this unless it's true. Have you used it? Where?"*
 5. **Honest limits on screen:** pasted text only; real ATS systems differ; a self-audit, not a guarantee.
-6. **No paid APIs or LLM calls** in the core flow.
+6. **No paid APIs or LLM calls in the audit flow.** Claude is used only by the optional AI resume builder.
 
 ## Features
 
@@ -26,6 +26,7 @@ Built for **MLH HackDay: The Battle Royale** (GDG on Campus AITR). Problem state
   (green matched, amber worded differently, red weak/not found, yellow placeholders) with hover tips, coverage ring, bucket tabs,
   bullet inspector (checklist, verb swap by intent, metric questions by bullet type, live before/after, Apply to resume),
   top-5 fixes, new-bullet template, format checklist, print/save report, `.txt` import.
+- **AI resume builder** (`/app/agent`, Claude Opus 5.5): interviews you one question at a time for your target role, then drafts a resume from your answers only. A server-side guard replaces any number you never gave with `[N]` and removes skills you never mentioned, and lists what it changed. Draft → audit, save or copy. Needs `ANTHROPIC_API_KEY` on the server.
 - **Dashboard** (saved resumes with coverage trend, recent audits, quick start), **History** (compare two audits, reopen, delete),
   **Settings** (theme, JSON export, delete all my data, account).
 - About / Privacy / Terms / Community Guidelines / 404 / error boundary. Light and dark themes, reduced-motion support.
@@ -61,6 +62,8 @@ npm run lint -w client
 npm run build               # client/dist
 npm start                   # production server on $PORT serving API + app
 ```
+
+AI resume builder: set `ANTHROPIC_API_KEY` in the server environment (locally in your shell before `npm run dev`; on Vercel with `vercel env add ANTHROPIC_API_KEY production`, then redeploy). Without it the builder shows a "not set up" message and everything else works.
 
 Optional Firebase: copy `client/.env.example` to `client/.env.local` and fill in the keys.
 

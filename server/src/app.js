@@ -3,14 +3,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PRESETS, SAMPLE_RESUME, SAMPLES, SKILLS } from '@proofcv/shared';
+import { handleAgentRequest } from './agent.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.resolve(here, '../../client/dist');
 
 /**
- * The API deliberately never accepts resume text: all analysis runs in the browser,
- * so "your resume never leaves your browser" stays true. The server only serves
- * reference data (role presets, the skill dictionary) and the built client.
+ * The audit API never accepts resume text: all analysis runs in the browser, so "your resume never
+ * leaves your browser" stays true for audits. The only exception is the opt-in AI resume agent
+ * (/api/agent), which sends interview answers to Anthropic's API and is labelled as such in the UI.
  */
 export function createApp({ serveClient = fs.existsSync(DIST) } = {}) {
   const app = express();
@@ -34,6 +35,7 @@ export function createApp({ serveClient = fs.existsSync(DIST) } = {}) {
       skills: SKILLS.map(({ name, category, aliases }) => ({ name, category, aliases })),
     });
   });
+  api.post('/agent', express.json({ limit: '64kb' }), handleAgentRequest);
   api.use((req, res) => res.status(404).json({ error: 'Not found' }));
   app.use('/api', api);
 

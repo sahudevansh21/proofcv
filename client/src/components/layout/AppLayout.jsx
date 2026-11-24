@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { NavLink, Navigate, Outlet, useLocation, useNavigate } from 'react-router';
-import { ChevronDown, FileSearch, History, LayoutDashboard, LogOut, Settings, ShieldCheck, User } from 'lucide-react';
+import { ChevronDown, FileSearch, History, LayoutDashboard, LogOut, Settings, ShieldCheck, Sparkles, User } from 'lucide-react';
 import { Logo, ThemeToggle } from './Brand.jsx';
 import { useStore } from '../../lib/store.js';
 import { logOut } from '../../lib/auth.js';
@@ -10,6 +10,7 @@ import { PageSkeleton } from './PageSkeleton.jsx';
 const LINKS = [
   { to: '/app', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/app/audit', label: 'Audit', icon: FileSearch },
+  { to: '/app/agent', label: 'AI Builder', icon: Sparkles },
   { to: '/app/history', label: 'History', icon: History },
   { to: '/app/settings', label: 'Settings', icon: Settings },
 ];
@@ -160,7 +161,7 @@ export default function AppLayout() {
         </main>
         <nav
           aria-label="App"
-          className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-line bg-surface/95 backdrop-blur md:hidden no-print"
+          className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-line bg-surface/95 backdrop-blur md:hidden no-print"
         >
           {LINKS.map((l) => (
             <NavLink

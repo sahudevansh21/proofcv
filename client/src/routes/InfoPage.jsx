@@ -25,11 +25,15 @@ const PAGES = {
   },
   privacy: {
     title: 'Privacy',
-    intro: 'Short version: your resume never leaves your browser.',
+    intro: 'Short version: audits run in your browser. Only the optional AI resume agent sends text off your device, and it tells you before it does.',
     sections: [
       [
         'What we process',
-        "The resume and job description you paste are analysed by code running on your device. ProofCV's server has no endpoint that accepts resume text.",
+        "The resume and job description you paste into the audit are analysed by code running on your device. No endpoint accepts audit text.",
+      ],
+      [
+        'The AI resume agent (optional)',
+        "If you choose to use the AI resume agent, your interview answers, the profile details you enter and the job posting are sent through ProofCV's server to Anthropic's Claude API to write the draft. ProofCV does not store or log them. Anthropic processes them under its commercial terms. Don't include anything you wouldn't put on a resume.",
       ],
       [
         'What is stored, and where',
