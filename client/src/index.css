@@ -301,3 +301,34 @@ mark {
     transition: none;
   }
 }
+
+/* Home live feed: new cards grow in at the top, pushing older ones down smoothly */
+.feed-card {
+  animation: feed-in 0.7s cubic-bezier(0.1, 0.85, 0.2, 1) both;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.1, 0.85, 0.2, 1);
+  overflow: hidden;
+}
+@keyframes feed-in {
+  from {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-width: 0;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.94);
+  }
+  60% {
+    max-height: 160px;
+  }
+  to {
+    max-height: 160px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-card {
+    animation: none;
+    transition: none;
+  }
+}

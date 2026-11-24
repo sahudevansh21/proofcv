@@ -7,6 +7,7 @@ import { SiteFooter } from '../components/layout/PublicLayout.jsx';
 import { ITEMS } from '../features/gallery/items.js';
 import { printUrl } from '../features/gallery/artwork.js';
 import { loadSample } from '../features/samples/samples.js';
+import { LiveFeed } from '../features/home/LiveFeed.jsx';
 import { useStore } from '../lib/store.js';
 import { useDocumentTitle } from '../lib/hooks.js';
 
@@ -373,6 +374,29 @@ export default function Home() {
                 </details>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Live proof */}
+        <section className="px-5 py-20 sm:px-8" aria-labelledby="proof-title">
+          <div className="mx-auto grid max-w-[1320px] grid-cols-1 items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)]">
+            <div className="lg:sticky lg:top-28">
+              <p className={mono}>Replayed from the four sample audits</p>
+              <h2 id="proof-title" className="mt-3 font-display text-[clamp(40px,5vw,64px)] font-semibold uppercase leading-[0.95]">
+                Proof, not promises
+              </h2>
+              <p className="mt-5 max-w-[46ch] font-serif text-[19px] leading-relaxed text-fg-muted">
+                Every card is real output from ProofCV’s engine on our sample resumes: what it matched, what it found under other words,
+                what it refused to suggest, and how it rewrote a bullet without inventing a number.
+              </p>
+              <p className="mt-4 font-serif text-[15px] italic text-fg-subtle">
+                These are demo samples, not other people’s activity. Hover to pause.
+              </p>
+              <button type="button" onClick={trySample} className={`${ctaLine} mt-8`}>
+                Run a sample yourself
+              </button>
+            </div>
+            <LiveFeed />
           </div>
         </section>
 
