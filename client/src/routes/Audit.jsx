@@ -139,13 +139,13 @@ export default function Audit() {
           ))}
         </ul>
       )}
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <CoveragePanel coverage={result.coverage} bulletStats={result.bulletStats} />
         <SkillsPanel skills={result.skills} />
         <FixList fixes={result.fixes} />
       </div>
       <BulletInspector bullets={bullets} onApply={applyBullet} />
-      <div className="grid gap-4 xl:grid-cols-[2fr_1fr]">
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[2fr_1fr]">
         <BulletTemplate tools={tools} />
         <FormatChecklist />
       </div>

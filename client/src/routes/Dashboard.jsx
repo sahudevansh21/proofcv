@@ -114,7 +114,7 @@ export default function Dashboard() {
         {hasDraft && (
           <Card className="mt-4 flex flex-wrap items-center justify-between gap-3 bg-primary-soft/40">
             <p className="text-sm text-fg">
-              <b>Unsaved draft</b>
+              <b>Current draft</b>
               {draft.title ? `: ${draft.title}` : ''}. Continue where you left off.
             </p>
             <Button to="/app/audit" size="sm" iconRight={ArrowRight}>
@@ -124,7 +124,7 @@ export default function Dashboard() {
         )}
       </section>
 
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr]">
         <section aria-labelledby="saved">
           <h2 id="saved" className="mb-3 text-lg font-semibold text-fg">
             Saved resumes

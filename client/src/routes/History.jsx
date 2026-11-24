@@ -98,7 +98,15 @@ export default function HistoryPage() {
   const [picked, setPicked] = useState([]);
   const [comparing, setComparing] = useState(false);
 
-  const pair = useMemo(() => picked.map((id) => audits.find((a) => a.id === id)).filter(Boolean), [picked, audits]);
+  // Oldest first, so the comparison reads as "before -> after".
+  const pair = useMemo(
+    () =>
+      picked
+        .map((id) => audits.find((a) => a.id === id))
+        .filter(Boolean)
+        .sort((x, y) => x.createdAt.localeCompare(y.createdAt)),
+    [picked, audits],
+  );
 
   const toggle = (id) => setPicked((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p.slice(-1), id]));
   const reopen = (a) => {

@@ -158,7 +158,7 @@ export function BulletInspector({ bullets, onApply }) {
           Weak bullets first. Pick one to rewrite.
         </p>
       </div>
-      <div className="grid lg:grid-cols-[minmax(0,22rem)_1fr]">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
         <ul className="max-h-[32rem] overflow-y-auto border-b border-line p-2 lg:border-b-0 lg:border-r" aria-label="Bullets">
           {bullets.map((b, i) => {
             const [tone, Icon, label] = STRENGTH[b.strength];
