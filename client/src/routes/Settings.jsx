@@ -44,7 +44,7 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div>
-        <h1 className="text-[28px] font-bold tracking-tight text-fg">Settings</h1>
+        <h1 className="text-[36px] font-semibold leading-none text-fg">Settings</h1>
         <p className="text-fg-muted">Theme, your data, and your account.</p>
       </div>
 

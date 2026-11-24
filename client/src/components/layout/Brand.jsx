@@ -5,22 +5,21 @@ import { useStore } from '../../lib/store.js';
 export function LogoMark({ className = 'h-8 w-8' }) {
   return (
     <svg viewBox="0 0 32 32" className={className} aria-hidden>
-      <rect width="32" height="32" rx="9" fill="var(--surface)" stroke="var(--line)" />
-      <path d="M8 9h10" stroke="#4285F4" strokeWidth="3" strokeLinecap="round" />
-      <path d="M8 15h6" stroke="#EA4335" strokeWidth="3" strokeLinecap="round" />
-      <path d="M8 21h4" stroke="#FBBC04" strokeWidth="3" strokeLinecap="round" />
-      <path d="M15.5 20.5l3.5 3.5 6.5-8" fill="none" stroke="#34A853" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="1" y="1" width="30" height="30" rx="4" fill="#FCEB93" stroke="#3A3550" strokeWidth="1.5" />
+      <path d="M8 11h12M8 16h8" stroke="#3A3550" strokeWidth="2" strokeLinecap="round" />
+      <path d="M15 21.5l3 3 6-7" fill="none" stroke="#3A3550" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
-export function Logo({ to = '/' }) {
+export function Logo({ to = '/', className = '' }) {
   return (
-    <Link to={to} className="flex items-center gap-2.5 rounded-lg" aria-label="ProofCV home">
-      <LogoMark />
-      <span className="text-lg font-bold tracking-tight text-fg">
-        Proof<span className="text-primary">CV</span>
-      </span>
+    <Link
+      to={to}
+      aria-label="ProofCV home"
+      className={`rounded font-serif font-medium tracking-[-0.01em] text-fg ${className || 'text-[21px]'}`}
+    >
+      ProofCV
     </Link>
   );
 }

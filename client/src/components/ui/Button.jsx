@@ -11,9 +11,9 @@ const VARIANTS = {
   'danger-ghost': 'text-danger-fg hover:bg-danger-soft',
 };
 const SIZES = {
-  sm: 'h-8 px-3 text-sm gap-1.5 rounded-lg',
-  md: 'h-10 px-4 text-sm gap-2 rounded-xl',
-  lg: 'h-12 px-6 text-base gap-2 rounded-xl',
+  sm: 'h-8 px-3.5 text-[11px] gap-1.5 rounded-full font-mono uppercase tracking-[0.1em]',
+  md: 'h-10 px-5 text-[12px] gap-2 rounded-full font-mono uppercase tracking-[0.1em]',
+  lg: 'h-[50px] px-7 text-[16px] gap-2 rounded-none font-display font-medium uppercase tracking-[0.12em]',
 };
 
 export const buttonClass = ({ variant = 'primary', size = 'md', className = '' } = {}) =>

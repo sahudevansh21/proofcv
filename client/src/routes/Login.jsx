@@ -108,19 +108,19 @@ export default function Login({ mode }) {
   return (
     <div className="grid min-h-dvh lg:grid-cols-2">
       {/* Brand panel */}
-      <aside className="relative hidden overflow-hidden bg-[#1a73e8] p-12 text-white lg:flex lg:flex-col">
-        <div aria-hidden className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#fbbc04]/30 blur-2xl" />
-        <div aria-hidden className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-[#34a853]/30 blur-2xl" />
-        <div className="relative rounded-xl bg-white/95 px-3 py-2 self-start">
+      <aside className="light-scope relative hidden overflow-hidden bg-drawer p-12 text-[#3a3550] lg:flex lg:flex-col">
+        <div aria-hidden className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#fbe46d]/50 blur-2xl" />
+        <div aria-hidden className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-[#fceb93]/60 blur-2xl" />
+        <div className="relative self-start">
           <Logo />
         </div>
         <div className="relative mt-auto">
-          <p className="text-[40px] font-bold leading-tight">
+          <p className="font-display text-[64px] font-semibold uppercase leading-[0.9]">
             Sharper resume.
             <br />
             Zero fiction.
           </p>
-          <ul className="mt-6 space-y-3 text-white/90">
+          <ul className="mt-6 space-y-3 text-[#3a3550]/80">
             <li className="flex gap-2">
               <Lock aria-hidden className="mt-0.5 h-5 w-5 shrink-0" />
               Your resume is analysed in your browser and never uploaded.
@@ -142,7 +142,7 @@ export default function Login({ mode }) {
           <ThemeToggle />
         </div>
         <div className="mx-auto my-auto w-full max-w-sm py-10">
-          <h1 className="text-[28px] font-bold tracking-tight text-fg">{isSignup ? 'Create your account' : 'Log in to ProofCV'}</h1>
+          <h1 className="text-[36px] font-semibold leading-none text-fg">{isSignup ? 'Create your account' : 'Log in to ProofCV'}</h1>
           <p className="mt-1.5 text-sm text-fg-muted">
             {isSignup ? 'Keep your resumes and audit history in one place.' : 'Pick up where you left off.'}
           </p>

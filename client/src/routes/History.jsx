@@ -124,7 +124,7 @@ export default function HistoryPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-[28px] font-bold tracking-tight text-fg">History</h1>
+          <h1 className="text-[36px] font-semibold leading-none text-fg">History</h1>
           <p className="text-fg-muted">Saved audits on this device. Tick two to compare.</p>
         </div>
         <Button icon={GitCompare} disabled={pair.length !== 2} onClick={() => setComparing(true)}>

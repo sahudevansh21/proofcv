@@ -75,7 +75,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-[28px] font-bold tracking-tight text-fg">Hi, {session?.name?.split(' ')[0]} 👋</h1>
+        <h1 className="text-[36px] font-semibold leading-none text-fg">Hi, {session?.name?.split(' ')[0]} 👋</h1>
         <p className="text-fg-muted">Pick up an audit or start a new one.</p>
       </div>
 

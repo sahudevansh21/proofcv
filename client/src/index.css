@@ -1,81 +1,111 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/oswald/wght.css';
+@import '@fontsource-variable/newsreader/wght.css';
+@import '@fontsource-variable/newsreader/wght-italic.css';
+@import '@fontsource/dm-mono/latin-400.css';
+@import '@fontsource/dm-mono/latin-500.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------- Design tokens ---------- */
-:root {
-  --bg: #f8f9fa;
-  --surface: #ffffff;
-  --surface-2: #f1f3f4;
-  --line: #e3e6ea;
-  --line-strong: #c9ced4;
-  --fg: #202124;
-  --fg-muted: #5f6368;
-  --fg-subtle: #80868b;
+/* ---------- Design tokens (Zestwell palette: warm cream, butter, blush, plum ink) ---------- */
+:root,
+.light-scope {
+  --bg: #fff9ec;
+  --surface: #fff9ef;
+  --surface-2: #fbf3e4;
+  --line: rgba(58, 53, 80, 0.15);
+  --line-strong: rgba(58, 53, 80, 0.35);
+  --fg: #3a3550;
+  --fg-muted: rgba(58, 53, 80, 0.72);
+  --fg-subtle: rgba(58, 53, 80, 0.6);
 
-  /* Brand (decorative) */
-  --g-blue: #4285f4;
-  --g-red: #ea4335;
-  --g-yellow: #fbbc04;
-  --g-green: #34a853;
+  --wall: #fff9ec;
+  --page: #fff9ef;
+  --mat: #f6ead8;
+  --band: #fbf3e4;
+  --drawer: #f9e3df;
+  --lemon: #fbe46d;
+  --blush: #f7d2d1;
+  --chip-on: #fceb93;
+
+  /* Brand accents (decorative) */
+  --g-blue: #6f86c9;
+  --g-red: #e08a86;
+  --g-yellow: #fbe46d;
+  --g-green: #8fb88a;
 
   /* Semantic (AA on their backgrounds) */
-  --primary: #1a73e8;
-  --primary-hover: #1765cc;
-  --primary-fg: #ffffff;
-  --primary-soft: #e8f0fe;
-  --primary-soft-fg: #174ea6;
-  --success: #188038;
-  --success-soft: #e6f4ea;
-  --success-fg: #0d652d;
-  --warning: #f9ab00;
-  --warning-soft: #fef7e0;
-  --warning-fg: #8a4b00;
-  --danger: #d93025;
-  --danger-soft: #fce8e6;
-  --danger-fg: #a50e0e;
+  --primary: #3a3550;
+  --primary-hover: #2a2640;
+  --primary-fg: #fff9ec;
+  --primary-soft: #fceb93;
+  --primary-soft-fg: #3a3550;
+  --success: #4c8a46;
+  --success-soft: #e6f0dc;
+  --success-fg: #2f5a2b;
+  --warning: #d9a400;
+  --warning-soft: #fdf1b8;
+  --warning-fg: #6b4c00;
+  --danger: #c2453f;
+  --danger-soft: #f7d2d1;
+  --danger-fg: #8a2421;
 
-  --ring: #1a73e8;
-  --shadow-sm: 0 1px 2px rgb(60 64 67 / 0.08), 0 1px 3px 1px rgb(60 64 67 / 0.05);
-  --shadow-md: 0 2px 6px rgb(60 64 67 / 0.1), 0 6px 16px rgb(60 64 67 / 0.08);
+  --ring: #3a3550;
+  --shadow-sm: 0 1px 2px rgb(58 53 80 / 0.05), 0 2px 10px rgb(58 53 80 / 0.05);
+  --shadow-md: 0 6px 24px rgb(58 53 80 / 0.14);
   color-scheme: light;
+  color: var(--fg);
 }
 
 .dark {
-  --bg: #121316;
-  --surface: #1c1d21;
-  --surface-2: #26272c;
-  --line: #34363c;
-  --line-strong: #4a4d55;
-  --fg: #e8eaed;
-  --fg-muted: #bdc1c6;
-  --fg-subtle: #9aa0a6;
+  --bg: #1f1c29;
+  --surface: #27243a;
+  --surface-2: #302c45;
+  --line: rgba(255, 249, 236, 0.12);
+  --line-strong: rgba(255, 249, 236, 0.3);
+  --fg: #fff4e0;
+  --fg-muted: rgba(255, 244, 224, 0.78);
+  --fg-subtle: rgba(255, 244, 224, 0.62);
 
-  --primary: #8ab4f8;
-  --primary-hover: #aecbfa;
-  --primary-fg: #0b1f3f;
-  --primary-soft: #1f2f4d;
-  --primary-soft-fg: #aecbfa;
-  --success: #81c995;
-  --success-soft: #16301f;
-  --success-fg: #a8dab5;
-  --warning: #fdd663;
-  --warning-soft: #352a0b;
-  --warning-fg: #fde293;
-  --danger: #f28b82;
-  --danger-soft: #3b1715;
-  --danger-fg: #f6aea9;
+  --mat: #3a3550;
+  --band: #27243a;
+  --drawer: #2d2838;
 
-  --ring: #8ab4f8;
+  --primary: #fceb93;
+  --primary-hover: #fff1b0;
+  --primary-fg: #2a2640;
+  --primary-soft: #3d3820;
+  --primary-soft-fg: #fceb93;
+  --success: #a7d49f;
+  --success-soft: #24331f;
+  --success-fg: #c3e5bc;
+  --warning: #fbe46d;
+  --warning-soft: #3d3514;
+  --warning-fg: #fbe9a0;
+  --danger: #f2a7a3;
+  --danger-soft: #3d1f22;
+  --danger-fg: #f7c3c0;
+
+  --ring: #fceb93;
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-md: 0 4px 16px rgb(0 0 0 / 0.45);
+  --shadow-md: 0 6px 24px rgb(0 0 0 / 0.5);
   color-scheme: dark;
 }
 
+/* Scaling units from the Zestwell frame (1440 x 900). */
+:root {
+  --u: min(calc(100vw / 1440), calc(100vh / 900));
+  --w: calc(100vw / 1440);
+}
+@media (max-width: 819px), (orientation: portrait) and (max-width: 1100px), (orientation: landscape) and (max-height: 500px) {
+  :root { --u: 1px; --w: 1px; }
+}
+
 @theme inline {
-  --font-sans:
-    'Google Sans', 'Product Sans', 'Google Sans Text', Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'Google Sans Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: 'Newsreader Variable', 'Newsreader', Georgia, serif;
+  --font-serif: 'Newsreader Variable', 'Newsreader', Georgia, serif;
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: 'Oswald Variable', 'Oswald', 'Arial Narrow', sans-serif;
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -104,8 +134,14 @@
   --color-danger-soft: var(--danger-soft);
   --color-danger-fg: var(--danger-fg);
   --color-ring: var(--ring);
+  --color-wall: var(--wall);
+  --color-page: var(--page);
+  --color-mat: var(--mat);
+  --color-band: var(--band);
+  --color-drawer: var(--drawer);
+  --color-chip-on: var(--chip-on);
 
-  --radius-card: 16px;
+  --radius-card: 6px;
   --shadow-card: var(--shadow-sm);
   --shadow-pop: var(--shadow-md);
 
@@ -140,6 +176,15 @@ html {
 }
 body {
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* Headings across the app use the condensed display face, like the gallery. */
+h1,
+.display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
 }
 :focus-visible {
   outline: 2px solid var(--ring);
@@ -196,15 +241,15 @@ mark {
   text-underline-offset: 3px;
 }
 .hl-placeholder {
-  background: #fde68a;
-  color: #4a3000;
+  background: var(--chip-on);
+  color: #3a3550;
   font-weight: 600;
-  outline: 1px dashed #b45309;
+  outline: 1px dashed #8a6a00;
 }
 .dark .hl-placeholder {
-  background: #5c4400;
-  color: #fde293;
-  outline-color: #fdd663;
+  background: #5a4d10;
+  color: #fceb93;
+  outline-color: #fbe46d;
 }
 
 /* ---------- Print report ---------- */
@@ -230,4 +275,29 @@ mark {
 }
 .print-only {
   display: none;
+}
+
+/* Gallery landing */
+.rise > span {
+  animation: rise 0.9s cubic-bezier(0.1, 0.85, 0.2, 1) both;
+}
+@keyframes rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+.z-drawer {
+  transform: translateX(101%);
+  transition: transform 0.45s cubic-bezier(0.1, 0.85, 0.2, 1);
+}
+.z-drawer[data-open='true'] {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise > span {
+    animation: none;
+  }
+  .z-drawer {
+    transition: none;
+  }
 }

@@ -23,10 +23,10 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
+      { path: '/', element: <Landing /> },
       {
         element: <PublicLayout />,
         children: [
-          { path: '/', element: <Landing /> },
           { path: '/about', element: <InfoPage page="about" /> },
           { path: '/privacy', element: <InfoPage page="privacy" /> },
           { path: '/terms', element: <InfoPage page="terms" /> },

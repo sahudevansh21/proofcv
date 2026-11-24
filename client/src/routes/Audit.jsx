@@ -189,7 +189,7 @@ export default function Audit() {
       {/* Toolbar */}
       <div className="flex flex-wrap items-end justify-between gap-3 no-print">
         <div>
-          <h1 className="text-[28px] font-bold tracking-tight text-fg">Audit</h1>
+          <h1 className="text-[36px] font-semibold leading-none text-fg">Audit</h1>
           <p className="flex items-center gap-1.5 text-sm text-fg-muted">
             <ShieldCheck aria-hidden className="h-4 w-4 text-success" />
             Analysed on your device. Re-scores as you type.

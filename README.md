@@ -18,7 +18,7 @@ Built for **MLH HackDay: The Battle Royale** (GDG on Campus AITR). Problem state
 
 ## Features
 
-- **Landing** with live before/after demo, three-bucket explainer, sample gallery, FAQ.
+- **Landing:** a walkable 3D gallery (three.js, lazy-loaded) where sample resumes and job postings hang as prints drawn on canvas. Click to look closer, open a print page with live coverage and buckets, save to "Your audits", or switch to the list view. Falls back to the list if WebGL is unavailable; honours reduced motion.
 - **Auth:** log in / sign up with validation, "Continue with Google" (Firebase, behind env flag), and a prominent **Continue as guest** with every feature.
   Without Firebase keys, accounts are local to the device and Google falls back to a demo profile. `/app/*` routes redirect to `/login?next=…`.
 - **Audit workspace:** resume and JD side by side (tabs on mobile), role presets, 4 samples, live debounced re-scoring, inline highlights
@@ -43,7 +43,8 @@ client/            React 19, Vite 6, Tailwind 4, React Router, Zustand
   src/components/ui        Button, IconButton, Card, Badge, Tabs, Tooltip, Modal, Drawer, Toast, Input, Textarea, Select, Skeleton, EmptyState, ProgressRing, Stepper
   src/components/layout    Public and app shells, theme toggle, profile menu, route guard
   src/features/audit       Workspace panels and hooks
-  src/features/samples     Sample gallery (optional PNGs in src/assets/samples/<id>.png)
+  src/features/gallery     3D gallery scene, canvas-drawn prints and labels
+  src/features/samples     Sample loading helpers
   src/features/import      Pluggable file-to-text extractors (OCR can be registered later, lazy-loaded)
   src/routes               Pages (code-split)
   src/lib                  Store, auth, config, hooks
