@@ -8,20 +8,13 @@ import AppLayout from './components/layout/AppLayout.jsx';
 import Home from './routes/Home.jsx';
 import ErrorPage from './routes/ErrorPage.jsx';
 import Root from './routes/Root.jsx';
+import { PageSkeleton } from './components/layout/PageSkeleton.jsx';
 import { watchForNewBuild } from './lib/freshBuild.js';
-import { lazyRoute } from './lib/lazyRoute.js';
+import { lazyRoute, routeModule } from './lib/lazyRoute.js';
 import { initSmoothScroll } from './lib/smoothScroll.js';
 
 // Route-level code splitting: only the landing page ships in the first bundle.
 const Login = lazyRoute(() => import('./routes/Login.jsx'));
-const Welcome = lazyRoute(() => import('./routes/Welcome.jsx'));
-const Gallery = lazyRoute(() => import('./routes/Gallery.jsx'));
-const Dashboard = lazyRoute(() => import('./routes/Dashboard.jsx'));
-const Audit = lazyRoute(() => import('./routes/Audit.jsx'));
-const Agent = lazyRoute(() => import('./routes/Agent.jsx'));
-const Templates = lazyRoute(() => import('./routes/Templates.jsx'));
-const HistoryPage = lazyRoute(() => import('./routes/History.jsx'));
-const SettingsPage = lazyRoute(() => import('./routes/Settings.jsx'));
 const InfoPage = lazyRoute(() => import('./routes/InfoPage.jsx'));
 const NotFound = lazyRoute(() => import('./routes/NotFound.jsx'));
 
@@ -29,10 +22,16 @@ const router = createBrowserRouter([
   {
     element: <Root />,
     errorElement: <ErrorPage />,
+    // Shown on a first visit straight to a lazily loaded page, while its code downloads.
+    hydrateFallbackElement: (
+      <div className="mx-auto max-w-6xl p-6">
+        <PageSkeleton />
+      </div>
+    ),
     children: [
       { path: '/', element: <Home /> },
-      { path: '/gallery', element: <Gallery /> },
-      { path: '/welcome', element: <Welcome /> },
+      { path: '/gallery', lazy: routeModule(() => import('./routes/Gallery.jsx')) },
+      { path: '/welcome', lazy: routeModule(() => import('./routes/Welcome.jsx')) },
       {
         element: <PublicLayout />,
         children: [
@@ -49,12 +48,12 @@ const router = createBrowserRouter([
         path: '/app',
         element: <AppLayout />,
         children: [
-          { index: true, element: <Dashboard /> },
-          { path: 'audit', element: <Audit /> },
-          { path: 'agent', element: <Agent /> },
-          { path: 'templates', element: <Templates /> },
-          { path: 'history', element: <HistoryPage /> },
-          { path: 'settings', element: <SettingsPage /> },
+          { index: true, lazy: routeModule(() => import('./routes/Dashboard.jsx')) },
+          { path: 'audit', lazy: routeModule(() => import('./routes/Audit.jsx')) },
+          { path: 'agent', lazy: routeModule(() => import('./routes/Agent.jsx')) },
+          { path: 'templates', lazy: routeModule(() => import('./routes/Templates.jsx')) },
+          { path: 'history', lazy: routeModule(() => import('./routes/History.jsx')) },
+          { path: 'settings', lazy: routeModule(() => import('./routes/Settings.jsx')) },
         ],
       },
     ],

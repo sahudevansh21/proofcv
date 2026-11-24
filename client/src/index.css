@@ -321,3 +321,23 @@ mark {
   .arc-item { transition: none; }
   .arc-preview { animation: none; }
 }
+
+/* Page-load progress bar (Root.jsx). Shows only after a short delay so fast loads don't flash. */
+.nav-progress {
+  opacity: 0;
+  background: linear-gradient(90deg, var(--lemon), var(--primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.2s ease;
+}
+.nav-progress.is-loading {
+  opacity: 1;
+  animation: nav-progress 8s cubic-bezier(0.1, 0.8, 0.2, 1) 0.15s forwards;
+}
+@keyframes nav-progress {
+  from { transform: scaleX(0.05); }
+  to { transform: scaleX(0.92); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-progress.is-loading { animation: none; transform: scaleX(0.6); }
+}
